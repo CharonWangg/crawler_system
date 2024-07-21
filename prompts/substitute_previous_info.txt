@@ -1,0 +1,1 @@
+\nHere is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this html less informative and useful than the previous value (exact very limited or even empty relevant information in the html), please adopt the previous value for that specific content.

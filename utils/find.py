@@ -14,7 +14,6 @@ from tqdm import tqdm
 import os
 from openai import OpenAI
 
-"sk-proj-lPvjprJp4QKX73lqPXFST3BlbkFJy6fvhoMHKyqEiM8tGu7E"
 
 class HTMLFinder:
     model_limit = {
@@ -33,10 +32,12 @@ class HTMLFinder:
             self.token_limit_per_minute = token_limit_per_minute
         self.sleep_time = 60
 
+
     def ask_llm(self, prompt):
         try:
             response = self.client.chat.completions.create(
                 messages=[
+                    {"role": "system", "content": open('prompts/system_prompt.txt', 'r').read()},
                     {
                         "role": "user",
                         "content": prompt,
@@ -54,17 +55,17 @@ class HTMLFinder:
         html_str = str(html_content)
         return [html_str[i:i + self.token_limit_per_minute] for i in range(0, len(html_str), self.token_limit_per_minute)]
 
-    def find_profile_with_bs4(self, html_content):
-        # Find all the faculty profile entries
-        profiles = html_content.find_all('div', class_='col-4 py-2')
-
-        hrefs = []
-        for entry in profiles:
-            link_element = entry.find('span', class_='font-weight-bold').find('a')
-            href = link_element['href']
-            hrefs.append(href)
-        return
-        return hrefs
+    # def find_profile_with_bs4(self, html_content):
+    #     # Find all the faculty profile entries
+    #     profiles = html_content.find_all('div', class_='col-4 py-2')
+    #
+    #     hrefs = []
+    #     for entry in profiles:
+    #         link_element = entry.find('span', class_='font-weight-bold').find('a')
+    #         href = link_element['href']
+    #         hrefs.append(href)
+    #     return
+    #     return hrefs
 
     def find_profile_from_faculty_list(self, html_content):
         def retrieve_profile(prompt):
@@ -87,9 +88,23 @@ class HTMLFinder:
 
         return profiles
 
-    def find_faculty_info_in_html(self, html_content):
+    def find_faculty_info_in_html(self, html_content, extra_prompt=""):
         # Prompt to instruct GPT-4 to extract email from the HTML content
         prompt = open('prompts/find_faculty_info_from_html.txt', 'r').read()
+        prompt += extra_prompt
+        info = self.ask_llm(prompt.replace('[html_content]', str(html_content))).replace('```json\n', '').replace('```', '')
+        info = json.loads(info)
+        return info
+
+    def find_relevant_links_in_google_html(self, html_content, query):
+        prompt = open('prompts/google_search.txt', 'r').read()
+        prompt = prompt.replace('[html_content]', str(html_content)).replace('[query]', str(query))
+        info = self.ask_llm(prompt)
+        info = json.loads(info)
+        return info
+
+    def find_relevant_links_in_lab_html(self, html_content):
+        prompt = open('prompts/lab_page_search.txt', 'r').read()
         info = self.ask_llm(prompt.replace('[html_content]', str(html_content))).replace('```json\n', '').replace('```', '')
         info = json.loads(info)
         return info

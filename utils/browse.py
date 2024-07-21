@@ -1,4 +1,5 @@
 import time
+import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -8,6 +9,14 @@ class WebBrowser:
     def __init__(self, headless=True, sleep_time=0.5):
         self.headless = headless
         self.sleep_time = sleep_time
+
+    def google_search(self, query):
+        search_url = f"https://www.google.com/search?q={query}"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        response = requests.get(search_url, headers=headers)
+        response.raise_for_status()
+        return response
 
     def scroll_to_bottom(self, url):
         # Set up Chrome options for headless mode

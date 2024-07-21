@@ -1,69 +1,68 @@
-name,profile_address,position,department,domain
-Titan Alon,/alon.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Kate Antonovics,/antonovics.html,"Provost, Seventh College; Professor of Teaching",Department of Economics,economics.ucsd.edu
-David Arnold,/arnold.html,"Assistant Professor of Teaching, Co-Director of Instruction",Department of Economics,economics.ucsd.edu
-Samuel Bazzi,/bazzi.html,Professor,Department of Economics,economics.ucsd.edu
-Eli Berman,/berman.html,"Professor, IGCC Research Director",Department of Economics,economics.ucsd.edu
-Julian R. Betts,/betts.html,Professor,Department of Economics,economics.ucsd.edu
-Prashant Bharadwaj,/bharadwaj.html,Professor and Vice Chair of Graduate Studies,Department of Economics,economics.ucsd.edu
-Judd Boomhower,/boomhower.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Richard T. Carson,/carson.html,Professor,Department of Economics,economics.ucsd.edu
-Jeffrey Clemens,/clemens.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Julie Berry Cullen,/cullen.html,Professor,Department of Economics,economics.ucsd.edu
-Gordon B. Dahl,/dahl.html,Professor,Department of Economics,economics.ucsd.edu
-Songzi Du,/du.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Fabian Eckert,/eckert.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Graham Elliott,/elliott.html,Professor,Department of Economics,economics.ucsd.edu
-Itzik Fadlon,/fadlon.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Melissa Famulari,/famulari.html,Professor of Teaching,Department of Economics,economics.ucsd.edu
-Alexander Gelber,/gelber.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Josh Graff Zivin,/graff-zivin.html,Professor,Department of Economics,economics.ucsd.edu
-Aram Grigoryan,/grigoryan.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-James D. Hamilton,/hamilton.html,Professor,Department of Economics,economics.ucsd.edu
-Juan Herreño,/herreno.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Clemence Idoux,/idoux.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Mark Jacobsen,/jacobsen.html,Professor,Department of Economics,economics.ucsd.edu
-Nir Jaimovich,/jaimovich.html,Professor,Department of Economics,economics.ucsd.edu
-Sara Lowes,/lowes.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Xinwei Ma,/ma.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Katherine Meckel,/meckel.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Marc Muendler,/muendler.html,"Professor, Department Chair",Department of Economics,economics.ucsd.edu
-Karthik Muralidharan,/muralidharan.html,Professor,Department of Economics,economics.ucsd.edu
-Paul Niehaus,/niehaus.html,Professor,Department of Economics,economics.ucsd.edu
-Giacomo Rondina,/rondina.html,"Associate Professor of Teaching, Vice Chair of Undergraduate Studies",Department of Economics,economics.ucsd.edu
-Denis Shishkin,/shishkin.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Yixiao Sun,/sun.html,Professor,Department of Economics,economics.ucsd.edu
-Allan Timmermann,/timmermann.html,Professor,Department of Economics,economics.ucsd.edu
-Isabel Trevino,/trevino.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Fabian Trottner,/trottner.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Emanuel Vespa,/vespa.html,Professor,Department of Economics,economics.ucsd.edu
-Tom Vogl,/vogl.html,"Associate Professor, Director of Instruction",Department of Economics,economics.ucsd.edu
-Joel Watson,/watson.html,Professor,Department of Economics,economics.ucsd.edu
-Johannes Wieland,/wieland.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Steve Pak Yeung Wu,/wu.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-Kaspar Wuthrich,/wuthrich.html,Associate Professor,Department of Economics,economics.ucsd.edu
-Ying Zhu,/zhu.html,Assistant Professor,Department of Economics,economics.ucsd.edu
-James Andreoni,/andreoni.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Richard Attiyeh,/attiyeh.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Don Bear,/bear.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Vincent P. Crawford,/crawford.html,Research Professor,Department of Economics,economics.ucsd.edu
-Robert F. Engle,/engle.html,"Professor Emeritus, & 2003 Nobelist",Department of Economics,economics.ucsd.edu
-Marjorie Flavin,/flavin.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Roger Gordon,/gordon.html,Research Professor,Department of Economics,economics.ucsd.edu
-Theodore Groves,/groves.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Mark J. Machina,/machina.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Garey Ramey,/g-ramey.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Valerie A. Ramey,/v-ramey.html,Professor Emerita,Department of Economics,economics.ucsd.edu
-James E. Rauch,/rauch.html,Professor Emeritus,Department of Economics,economics.ucsd.edu
-Joel Sobel,/sobel.html,Research Professor,Department of Economics,economics.ucsd.edu
-Ross Starr,/starr.html,Research Professor,Department of Economics,economics.ucsd.edu
-Michelle White,/white.html,Research Professor,Department of Economics,economics.ucsd.edu
-Dale Squires,/squires.html,"Adjunct Professor, NOAA Southwest Fisheries",Department of Economics,economics.ucsd.edu
-Carlos Fernando Avenancio-León,/avenancio-leon.html,"Assistant Professor, Rady School of Management",Department of Economics,economics.ucsd.edu
-Joseph Engelberg,/engelberg.html,"Professor, Rady School of Management",Department of Economics,economics.ucsd.edu
-Kyle Handley,/handley.html,"Associate Professor, GPS",Department of Economics,economics.ucsd.edu
-James Hilger,/hilger.html,"Asst. Adjunct Professor, NOAA Southwest Fisheries",Department of Economics,economics.ucsd.edu
-Ruixue Jia,/jia.html,"Associate Professor, GPS",Department of Economics,economics.ucsd.edu
-Craig McIntosh,/mcintosh.html,"Professor, GPS",Department of Economics,economics.ucsd.edu
-Dimitri Politis,/politis.html,"Professor, Mathematics",Department of Economics,economics.ucsd.edu
-Krislert Samphantharak,/samphantharak.html,"Associate Professor, GPS",Department of Economics,economics.ucsd.edu
+name,profile_address,position,department,domain,email,website,phd,postdoc
+Kate Antonovics,/antonovics.html,Teaching Professor,Department of Economics,Labor Economics,kantonov@ucsd.edu,http://econ.ucsd.edu/~kantonov/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Titan Alon,/alon.html,Assistant Professor,Economics,"Macroeconomics, Labor, Education, Growth",talon@ucsd.edu,https://sites.google.com/view/titan-alon,{'N/A': 'N/A'},{'N/A': 'N/A'}
+David Arnold,/arnold.html,Assistant Teaching Professor of Economics,Economics,labor economics,daarnold@ucsd.edu,https://sites.google.com/site/davidhallarnold/home,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Eli Berman,/berman.html,Professor – Department of Economics,Economics,"economic development and conflict, insurgency, terrorism, economics of religion, labor economics",elib@ucsd.edu,http://econ.ucsd.edu/~elib/#,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Samuel Bazzi,/bazzi.html,Professor,Economics,"Migration and cultural change, political economy of religion, nation-building process",sbazzi@ucsd.edu,https://sites.google.com/site/samuelbazzi/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Julian R. Betts,/betts.html,Professor,N/A,N/A,jbetts@ucsd.edu,http://econ.ucsd.edu/~jbetts/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Prashant Bharadwaj,/bharadwaj.html,Professor and Vice Chair of Graduate Studies,Economics,N/A,prbharadwaj@ucsd.edu,http://dss.ucsd.edu/~prbharadwaj,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Judson Boomhower,/boomhower.html,Assistant Professor,Economics,"environmental economics, energy markets, climate risk and adaptation",jboomhower@ucsd.edu,https://www.judsonboomhower.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Jeffrey Clemens,/clemens.html,Associate Professor,Economics,Intersections between Health Economics and Public Finance; The Economics of Redistribution and Social Insurance; State and Local Government Finances,jeffclemens@ucsd.edu,http://econweb.ucsd.edu/~j1clemens/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Julie Berry Cullen,/cullen.html,Professor,Economics,"Public economics, economics of education, fiscal federalism, behavioral responses to taxation and social insurance",jbcullen@ucsd.edu,http://dss.ucsd.edu/~jbcullen,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Richard T. Carson,/carson.html,Distinguished Professor,Department of Economics,"Contingent Valuation, Environmental Economics, Choice Modeling",rcarson@ucsd.edu,http://econ.ucsd.edu/~rcarson/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Gordon B. Dahl,/dahl.html,Professor,Economics,labor economics and applied microeconomics,gdahl@ucsd.edu,http://dss.ucsd.edu/~gdahl/index.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Songzi Du,/du.html,Associate Professor,Economics,"Game Theory, Mechanism Design, Market Microstructure",sodu@ucsd.edu,https://econweb.ucsd.edu/~sodu,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Fabian Eckert,/eckert.html,Assistant Professor,Department of Economics,"Trade, Economic Geography, and Macroeconomics",fpe@ucsd.edu,http://www.fpeckert.me,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Graham Elliott,/elliott.html,Professor,Economics,N/A,grelliott@ucsd.edu,http://econ.ucsd.edu/~gelliott/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Itzik Fadlon,/fadlon.html,Associate Professor of Economics,Economics,"public finance, health economics, labor/family economics",fadlon@ucsd.edu,http://pages.ucsd.edu/~yfadlon/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Melissa Famulari,/famulari.html,Teaching Professor,Economics,"Education, Labor, and Health",mfamulari@ucsd.edu,http://econweb.ucsd.edu/~mfamular/index.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Alexander Gelber,/gelber.html,Associate Professor,Economics,"public finance, Economic Research, Economics, Tax, Taxation, saving, family economics, labor, poverty, inequality",agelber@nber.org,http://users.nber.org/~agelber/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Joshua Graff Zivin,/graff-zivin.html,Pacific Economic Cooperation Chair in International Economic Relations,UC San Diego School of Global Policy and Strategy,N/A,jgraffzivin@ucsd.edu,https://www.joshgraffzivin.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Aram Grigoryan,/grigoryan.html,Assistant Teaching Professor,Economics,"market design, matching theory",a2grigoryan@ucsd.edu,https://sites.google.com/iset.ge/aramgrigoryan/home,{'N/A': 'N/A'},{'N/A': 'N/A'}
+James D. Hamilton,/hamilton.html,Professor,Economics,"macroeconomics, monetary policy, labor markets, econometrics",jhamilton@ucsd.edu,http://econweb.ucsd.edu/~jhamilto/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Clemence Idoux,/idoux.html,Assistant Professor,Economics,"Labor economics, Education",cidoux@ucsd.edu,https://sites.google.com/view/clemence-idoux/home?pli=1,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Juan Herreño,/herreno.html,Assistant Professor,Economics,macroeconomics and monetary economics,juanherreno@ucsd.edu,https://sites.google.com/view/juanherreno,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Mark Jacobsen,/jacobsen.html,Professor,Economics,N/A,m3jacobsen@ucsd.edu,http://www.econ.ucsd.edu/~m3jacobs/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Nir Jaimovich,/jaimovich.html,Professor,Department of Economics,N/A,nijaimovich@ucsd.edu,http://nirjaimovich.com,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Xinwei Ma,/ma.html,Assistant Professor,Economics,N/A,x1ma@ucsd.edu,https://sites.google.com/view/xinweima,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Sara Lowes,/lowes.html,Associate Professor,Economics,"development economics, political economy, economic history",slowes@ucsd.edu,http://www.saralowes.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Katherine Meckel,/meckel.html,Associate Professor,Economics,public finance and health economics,kmeckel@ucsd.edu,https://sites.google.com/view/katherinemeckel/home,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Marc-Andreas Muendler,/muendler.html,Professor,Economics,"International Trade, International Finance, Development Economics",muendler@ucsd.edu,http://econ.ucsd.edu/muendler/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Karthik Muralidharan,/muralidharan.html,Tata Chancellor's Professor of Economics,Economics,"development, public, and labor economics; education, health, and social protection; measuring quality of public service delivery; program evaluation; improving the effectiveness of public spending",cchatfield@ucsd.edu,http://econ.ucsd.edu/~kamurali/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Paul Niehaus,/niehaus.html,Chancellor's Associates Endowed Chair in Economics,Economics,N/A,pniehaus@ucsd.edu,http://dss.ucsd.edu/~pniehaus/index.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Denis Shishkin,/shishkin.html,Assistant Professor of Economics,Economics,"microeconomic theory, behavioral economics, experimental economics",dshishkin@ucsd.edu,https://denisshishkin.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Giacomo Rondina,/rondina.html,Associate Teaching Professor,Economics,"information aggregation, financial globalization, rational bubbles, sustainability",grondina@ucsd.edu,https://sites.google.com/site/rondinagiacomo/ucsd,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Yixiao Sun,/sun.html,Professor of Economics,Economics,Econometrics,yisun@ucsd.edu,http://econweb.ucsd.edu/~yisun/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Allan Timmermann,/timmermann.html,Distinguished Professor of Finance,Rady School of Management,"Asset Pricing, Portfolio Management and Evaluation, Time-series and Panel Econometrics, Economic Forecasting",atimmermann@ucsd.edu,https://rady.ucsd.edu/faculty-research/faculty/allan-timmermann.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Isabel Trevino,/trevino.html,Associate Professor,Economics,N/A,itrevino@ucsd.edu,http://econweb.ucsd.edu/~itrevino/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Fabian Trottner,/trottner.html,Assistant Professor,Economics,"International Trade, International Macroeconomics, Labor",ftrottner@ucsd.edu,http://trottner.me/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Tom Vogl,/vogl.html,Associate Professor,Department of Economics,"Development, Demography, Health, Human Capital",tvogl@ucsd.edu,https://tomvogl.github.io,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Emanuel Vespa,/vespa.html,Professor,Economics,N/A,evespa@ucsd.edu,https://sites.google.com/site/emanuelvespa/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Johannes Wieland,/wieland.html,Associate Professor,Department of Economics,"macroeconomics, international economics, economic history, public finance",jfwieland@ucsd.edu,https://johanneswieland.github.io,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Joel Watson,/watson.html,Professor,Economics,"Contract theory, Game theory, Law and economics, Macroeconomics, Labor economics, International economics, Environmental economics",jwatson@ucsd.edu,http://econ.ucsd.edu/~jwatson/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Kaspar Wuthrich,/wuthrich.html,Associate Professor,Economics,"Quantile and IV methods, Difference-in-differences and synthetic control methods, ML methods for prediction and inference, Econometric aspects of experiments, Detecting p-hacking and publication bias",kwuthrich@ucsd.edu,https://sites.google.com/site/wuethricheconomics/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Steve Pak Yeung Wu,/wu.html,Assistant Professor,Economics,"International Macro/Finance, Monetary Economics",stevepywu@gmail.com,https://sites.google.com/view/stevewu/home,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Ying Zhu,/zhu.html,Assistant Professor,Economics,"High-Dimensional Estimation and Inference, Nonasymptotic Statistics, Semiparametric and Nonparametric Methods, Mathematical Foundations of Statistical Learning, Data Driven Robust Mechanism Design",yiz012@ucsd.edu,https://sites.google.com/view/ying-zhu/ying-zhu,{'N/A': 'N/A'},{'N/A': 'N/A'}
+James Andreoni,/andreoni.html,Professor Emeritus,Economics,N/A,andreoni@ucsd.edu,http://econ.ucsd.edu/~jandreon/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Don Bear,/bear.html,Professor Emeritus,Economics,N/A,N/A,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Richard Attiyeh,/attiyeh.html,Professor Emeritus,Economics,N/A,rattiyeh@ucsd.edu,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Marjorie Flavin,/flavin.html,Professor Emeritus,Economics,N/A,mflavin@ucsd.edu,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Roger Gordon,/gordon.html,Professor of Economics,Economics,N/A,rogordon@ucsd.edu,http://econ.ucsd.edu/~rogordon,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Theodore Groves,/groves.html,Professor Emeritus,Economics,N/A,tgroves@ucsd.edu,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Vincent Crawford,/crawford.html,Professor Emeritus & Research Professor,Economics,"Behavioral and experimental economics, game theory",v2crawford@ucsd.edu,http://dss.ucsd.edu/~vcrawfor/,"{'Miguel A. Costa-Gomes': 'https://risweb.st-andrews.ac.uk/portal/en/persons/miguel-costagomes%2848831978-6c92-4cd5-858f-0b7800b2f645%29.html', 'Nagore Iriberri': 'https://sites.google.com/site/nagoreiriberri/'}",{'Bruno Broseta': 'http://rady.ucsd.edu/faculty/directory/gneezy/'}
+Garey Ramey,/g-ramey.html,Professor Emeritus,Economics,N/A,gramey@ucsd.edu,http://www.econ.ucsd.edu/~gramey/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Mark J. Machina,/machina.html,Professor Emeritus,Department of Economics,Robustifying the Classical Theory of Risk Preferences and Beliefs,mmachina@ucsd.edu,http://econweb.ucsd.edu/~mmachina/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Valerie A. Ramey,/v-ramey.html,Professor Emerita,Economics,N/A,vramey@ucsd.edu,http://econ.ucsd.edu/~vramey,{'N/A': 'N/A'},{'N/A': 'N/A'}
+James E. Rauch,/rauch.html,Professor,Economics,"missing links, the three arab worlds, leading issues in economic development, research, networks and markets.",jrauch@ucsd.edu,http://www.econ.ucsd.edu/~jrauch/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Joel Sobel,/sobel.html,Professor,Economics,N/A,jsobel@ucsd.edu,http://www.econ.ucsd.edu/~jsobel/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Ross M. Starr,/starr.html,Professor,Department of Economics,"Foundations of Monetary Theory, General Equilibrium Theory, Non-Convex Economies, Asset Market Liquidity",rstarr@ucsd.edu,http://www.econ.ucsd.edu/~rstarr/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Dale Squires,/squires.html,"Adj Professor, NOAA Southwest Fisheries",Economics,N/A,dsquires@ucsd.edu,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Michelle J. White,/white.html,Research Professor,Economics,"Public and urban economics, Law & economics",miwhite@ucsd.edu,http://www.econ.ucsd.edu/~miwhite/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Carlos Fernando Avenancio-León,/avenancio-leon.html,Assistant Professor of Finance,Rady School of Management,N/A,cavenancioleon@ucsd.edu,https://rady.ucsd.edu/people/faculty/leon/index.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Joey Engelberg,/engelberg.html,Associate Professor,Finance,Finance,jengelberg@ucsd.edu,http://rady.ucsd.edu/faculty/directory/engelberg/pub/portfolios/index.htm,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Kyle Handley,/handley.html,Associate Professor,School of Global Policy and Strategy,"international trade, investment, uncertainty, firm employment dynamics",khandley@ucsd.edu,https://kylehandley.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Ruixue Jia,/jia.html,Associate Professor of Economics,School of Global Policy and Strategy,N/A,rxjia@ucsd.edu,https://www.ruixuejia.com/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Craig McIntosh,/mcintosh.html,"Professor; Co-director, Policy Design and Evaluation Lab",School of Global Policy and Strategy,"development economics, agricultural and resource economics, program evaluation, microeconomics, anti-poverty policies",ctmcintosh@ucsd.edu,http://gps.ucsd.edu/faculty-directory/craig-mcintosh.html,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Dimitri Politis,/politis.html,Professor,Mathematics,N/A,dpolitis@ucsd.edu,N/A,{'N/A': 'N/A'},{'N/A': 'N/A'}
+Krislert Samphantharak,/samphantharak.html,Professor,Economics,"finance, economic development, public policy",krislert@ucsd.edu,https://sites.google.com/site/krislert/,{'N/A': 'N/A'},{'N/A': 'N/A'}
+James Hilger,/hilger.html,"Asst. Adjunct Professor, NOAA Southwest Fisheries",Economics,N/A,james.hilger@noaa.gov,http://swfsc.noaa.gov/staff.aspx?id=14508,"{'Kelly Vasbinder': 'https://www.fisheries.noaa.gov/contact/kelly-vasbinder-phd', 'Cheyenne Payne': 'https://www.fisheries.noaa.gov/contact/cheyenne-payne-phd', 'Caroline Daley': 'https://www.fisheries.noaa.gov/contact/caroline-daley', 'Rachel Brooks': 'https://www.fisheries.noaa.gov/contact/rachel-brooks', 'Catherine Courtier': 'https://www.fisheries.noaa.gov/contact/catherine-courtier', 'Tyler Lee': 'https://www.fisheries.noaa.gov/contact/tyler-lee', 'Ryan Gasbarro': 'https://www.fisheries.noaa.gov/contact/ryan-gasbarro-phd', 'Kim Dietrich': 'https://www.fisheries.noaa.gov/contact/kim-dietrich', 'Samuel Funakoshi': 'https://www.fisheries.noaa.gov/contact/samuel-funakoshi', 'Jack Conroy': 'https://www.fisheries.noaa.gov/contact/jack-conroy-phd', 'Kelsey James': 'https://www.fisheries.noaa.gov/contact/kelsey-james-phd', 'Joshua Stewart': 'https://www.fisheries.noaa.gov/contact/joshua-stewart-phd'}",{'N/A': 'N/A'}

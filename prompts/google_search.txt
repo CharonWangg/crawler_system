@@ -1,0 +1,13 @@
+You are going to carefully go through a web search result about for the query: [query]. Use the following steps to filter and retrieve the most relevant results. Evaluate the titles, URLs, and descriptions of the top search results. Select those that appear most relevant and authoritative (e.g., official university websites, lab pages, reputable academic profiles). Return the most relevant pages links as a dict of URLs that is ranked by relevance from most to least relevant. Note that the most relevant pages should be no more than 2. If you cannot find relevant/matching content for specific keys, return {}. Return the result as a JSON object.
+For example, for the query: 'Jeff lab UCSD':
+
+{
+  'lab': 'www.jefflab.com',
+  'ucsd official': 'www.ucsd.com/jeff',
+}
+
+Here is the HTML content:
+
+[html_content]
+
+Return the result as a JSON object.
