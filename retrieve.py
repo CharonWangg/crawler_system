@@ -13,16 +13,8 @@ import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
-def multi_request(urls):
-    responses = []
-    for url in urls:
-        if url:
-            response = requests.get(url)
-            responses.append(response)
-    return responses
-
-
 def fetch_profile(entry, profile_base_url, api_key, crawler_cfg, profile_dir):
+    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
     html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
@@ -45,30 +37,13 @@ def fetch_profile(entry, profile_base_url, api_key, crawler_cfg, profile_dir):
 
             # faculty page in the department page
             personal_soup = BeautifulSoup(response.content, 'html.parser')
-            with open(f'{profile_dir}/{entry["name"]}/personal_profile.html', 'w', encoding='utf-8') as file:
-                file.write(str(personal_soup))
             personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
         else:
             # try to gather personal information from google search
             search_query = f"{entry['name']} {entry['university']}"
-            search_html = BeautifulSoup(web_browser.google_search(search_query).content, 'html.parser')
-            google_links = html_finder.find_relevant_links_in_google_html(search_html, search_query)
-            personal_soup = multi_request(list(google_links.values()))
-            personal_soup = [BeautifulSoup(response.content, 'html.parser') for response in personal_soup]
-            for name, soup in zip(google_links.keys(), personal_soup):
-                with open(f'{profile_dir}/{entry["name"]}/personal_profile_{name}.html', 'w', encoding='utf-8') as file:
-                    file.write(str(soup))
-            personal_soup = "\n".join([f'This website link: {link}\n' + str(soup) for link, soup in zip(google_links, personal_soup)])
-
+            personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query)
         # dig deeper about the website to gather more information (team/research project)
-        lab_section_links = html_finder.find_relevant_links_in_lab_html(personal_soup)
-        if lab_section_links:
-            lab_soup = multi_request(list(lab_section_links.values()))
-            lab_soup = [BeautifulSoup(response.content, 'html.parser') for response in lab_soup]
-            # for name, soup in zip(lab_section_links.keys(), lab_soup):
-            #     with open(f'{profile_dir}/{entry["name"]}/lab_profile_{name}.html', 'w', encoding='utf-8') as file:
-            #         file.write(str(soup))
-            personal_soup = personal_soup + "\n" + "\n".join([str(soup) for soup in lab_soup])
+        personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup)
 
         # generate the final summary table of the faculty
         entry.update(html_finder.find_faculty_info_in_html(personal_soup, extra_prompt=extra_prompt))
@@ -114,11 +89,11 @@ if __name__ == '__main__':
     profile_base_url = cfg['profile_base_url']
 
     # Scroll down the faculty profiles page to load all the content
+    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
     if os.path.exists(os.path.join(data_dir, 'faculty_profiles.html')):
         with open(os.path.join(data_dir, 'faculty_profiles.html'), 'r', encoding='utf-8') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
     else:
-        web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
         soup = web_browser.scroll_to_bottom(base_url)
         # save the soup to a file
         with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:

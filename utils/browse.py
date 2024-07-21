@@ -10,6 +10,15 @@ class WebBrowser:
         self.headless = headless
         self.sleep_time = sleep_time
 
+    def multi_request(self, urls):
+        responses = []
+        for url in urls:
+            if url:
+                if url == "{}": continue
+                response = requests.get(url)
+                responses.append(response)
+        return responses
+
     def google_search(self, query):
         search_url = f"https://www.google.com/search?q={query}"
         headers = {

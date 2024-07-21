@@ -2,7 +2,7 @@ Above is the lab/personal website link. Your task is to carefully analyze this c
 
 **Requirements:**
 - The number of the most relevant pages should be no more than 2.
-- If you cannot find relevant or matching content for specific keys, return an empty dictionary `{}`.
+- If you cannot find relevant or matching content for specific keys, return an empty dictionary "{}".
 - Be strict about the URLs' validity; do not return made-up or placeholder links.
 - Only include URLs that you can confirm are correct by matching the href attributes in the HTML content.
 Here are examples of expected outputs:
