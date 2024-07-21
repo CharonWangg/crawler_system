@@ -1,0 +1,3 @@
+model: gpt-4o-mini
+sleep_time: 0.5
+token_limit_per_minute: 600000

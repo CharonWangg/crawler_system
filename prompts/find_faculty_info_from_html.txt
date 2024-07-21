@@ -1,0 +1,30 @@
+Extract the faculty position, department, and research domain (keywords), email, PhD students, Postdocs, lab website/personal website, and the links of those PhD students and Postdocs (PhD students and Postdocs as dicts of names and corresponding personal website links, e.g. phd: {'Jack': 'www.jack.com', 'Peter': 'peter.github.io'}) from the following HTML content. Only return the information in the format of a dict with keys 'name', 'position', 'department', 'domain', 'email', 'website', 'phd', 'postdoc'. If you cannot find relevant/matching content for specific keys, return 'N/A' for those keys. Note that you also need to convert the email you have received as the normal format, like name [at] upenn [dot] edu should be converted to name@upenn.edu and first_name@ucsd.edu should be competed with the first name you have found in the page. For example:
+
+{
+  name: 'Jeff',
+  position: 'Assistant Professor',
+  department: 'Biology',
+  domain: 'Gene analysis',
+  email: 'jeff@ucsd.edu',
+  website: 'www.jeff.com',
+  phd: {'N/A': 'N/A'},
+  postdoc: {'N/A': 'N/A'}
+}
+
+Or:
+
+{
+  name: 'Jeff',
+  position: 'Assistant Professor',
+  department: 'Biology',
+  domain: 'Gene analysis',
+  website: 'www.jeff.com',
+  phd: {'Jack': 'www.jack.com', 'Peter': 'peter.github.io'},
+  postdoc: {'Jack2': 'www.jack2.com', 'Peter2': 'peter2.com'}
+}
+
+if there are PhD or Postdocs listed. Do not include any other text. Here is the HTML content:
+
+[html_content]
+
+Return the result as a JSON object.

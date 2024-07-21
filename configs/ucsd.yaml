@@ -1,0 +1,9 @@
+jacob:
+    base_url: https://jacobsschool.ucsd.edu/faculty/profiles
+    profile_base_url: https://jacobsschool.ucsd.edu
+    data_dir: data/ucsd/engineering
+
+economics:
+    base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles/index.html
+    profile_base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles
+    data_dir: test/ucsd/economics
