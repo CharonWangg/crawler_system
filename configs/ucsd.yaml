@@ -6,4 +6,9 @@ jacob:
 economics:
     base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles/index.html
     profile_base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles
-    data_dir: test/ucsd/economics
+    data_dir: data/ucsd/economics
+
+hdsi:
+    base_url: https://datascience.ucsd.edu/faculty
+    profile_base_url: https://datascience.ucsd.edu/people
+    data_dir: data/ucsd/datascience

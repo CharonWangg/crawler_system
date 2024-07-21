@@ -1,11 +1,11 @@
-Extract the faculty position, department, university, and research domain (keywords), brief description (summarization) of research direction, email, PhD students, Postdocs, lab website/personal website, and the links of those PhD students and Postdocs (PhD students and Postdocs as dicts of names and corresponding personal website links from the following HTML content. Only return the information in the format of a dict with keys "name", position", "department", "university", "domain", "description", "email", "website", "phd", "postdoc". If you cannot find relevant/matching content for specific keys, return {} for those keys. Note that you also need to convert the email you have received as the normal format, like name [at] upenn [dot] edu should be converted to name@upenn.edu and first_name@ucsd.edu should be competed with the first name you have found in the page. For example:
+Extract the faculty position, department, university, and research domain (keywords), brief description (summarization) of research direction, email, PhD students, Postdocs, lab website/personal website, and the links of those PhD students and Postdocs (PhD students and Postdocs as dicts of names and corresponding personal website links from the following HTML content. Only return the information in the format of a dict with keys "name", position", "department", "university", "research domain", "description", "email", "website", "phd", "postdoc". If you cannot find relevant/matching content for specific keys, return {} for those keys. Note that you also need to convert the email you have received as the normal format, like name [at] upenn [dot] edu should be converted to name@upenn.edu and first_name@ucsd.edu should be competed with the first name you have found in the page. For example:
 
 {
   "name": "Jeff",
   "position": "Assistant Professor",
   "department": "Biology",
   "university": "UCSD",
-  "domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
+  "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
   "description": "Dr. Jeff's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies like Next-Generation Sequencing and CRISPR-Cas9. He aims to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
   "email": "jeff@ucsd.edu",
   "website": {},
@@ -20,7 +20,7 @@ Or
   "position": "Assistant Professor",
   "department": "Biology",
   "university": "Yale",
-  "domain": "Gene analysis, Personalized medicine",
+  "research domain": "Gene analysis, Personalized medicine",
   "description": {},
   "email": {},
   "website": "www.jeff.com",

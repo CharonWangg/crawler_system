@@ -9,6 +9,34 @@ class WebBrowser:
     def __init__(self, headless=True, sleep_time=0.5):
         self.headless = headless
         self.sleep_time = sleep_time
+        self.init_browser()
+
+    def init_browser(self):
+        # Set up Chrome options for headless mode
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")  # Run in headless mode
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # Initialize WebDriver
+        service = Service('/opt/homebrew/bin/chromedriver')  # Replace with your actual chromedriver path
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    def quit_browser(self):
+        self.driver.quit()
+
+    def browse(self, url):
+        # browse a website. First request, if blocked use selenium
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            return response.content
+        except Exception as e:
+            if "Max retries exceeded with url:" in str(e):
+                self.driver.get(url)
+                page_source = self.driver.page_source
+            else:
+                print(f"An error occurred: {e}")
 
     def multi_request(self, urls):
         responses = []

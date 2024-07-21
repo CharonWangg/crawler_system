@@ -1,4 +1,3 @@
-import requests
 import json
 import time
 from bs4 import BeautifulSoup
@@ -13,28 +12,21 @@ import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
-def fetch_profile(entry, profile_base_url, api_key, crawler_cfg, profile_dir):
+def fetch_profile(entry, api_key, crawler_cfg, profile_dir):
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
     html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     try:
-        if not entry["profile_address"].startswith('/'):
-            entry["profile_address"] = f'/{entry["profile_address"]}'
-        response = requests.get(f'{profile_base_url}{entry["profile_address"]}')
-        response.raise_for_status()  # Check for request errors
-
-        # faculty page in the department page
-        official_soup = BeautifulSoup(response.content, 'html.parser')
+        response = web_browser.browse(entry["profile_address"])
+        official_soup = BeautifulSoup(response, 'html.parser')
         entry.update(html_finder.find_faculty_info_in_html(official_soup))
 
         # browse personal page gathered from faculty page
         # update prompt
         extra_prompt = open('prompts/substitute_previous_info.txt', 'r').read().replace('[previous_info]', str(entry))
         if entry['website']:
-            response = requests.get(entry['website'])
-            response.raise_for_status()  # Check for request errors
-
+            response = web_browser.browse(entry['website'])
             # faculty page in the department page
             personal_soup = BeautifulSoup(response.content, 'html.parser')
             personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
@@ -106,7 +98,7 @@ if __name__ == '__main__':
     else:
         html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                                  token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
-        faculty_entries = html_finder.find_profile_from_faculty_list(soup)
+        faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
         # save the faculty entries to a file
         with open(os.path.join(data_dir, 'faculty_entries.json'), 'w') as f:
             json.dump(faculty_entries, f)
@@ -114,7 +106,7 @@ if __name__ == '__main__':
 
     # Fetch the individual faculty information
     with ProcessPoolExecutor(max_workers=args.num_processes) as executor:
-        future_to_entry = {executor.submit(fetch_profile, entry, profile_base_url, api_key, crawler_cfg, profile_dir): entry for
+        future_to_entry = {executor.submit(fetch_profile, entry, api_key, crawler_cfg, profile_dir): entry for
                            entry in faculty_entries}
         results = []
         for future in tqdm(as_completed(future_to_entry), total=len(future_to_entry), desc="Fetching faculty profiles"):

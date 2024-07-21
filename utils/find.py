@@ -1,15 +1,6 @@
-import requests
-from bs4 import BeautifulSoup
 import json
 import re
-import pandas as pd
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-import pandas as pd
 from tqdm import tqdm
 
 import os
@@ -89,10 +80,10 @@ class HTMLFinder:
     #     return
     #     return hrefs
 
-    def find_profile_from_faculty_list(self, html_content):
+    def find_profile_from_faculty_list(self, html_content, profile_base_url):
         def retrieve_profile(prompt):
             prompt = open('prompts/find_faculty_profile_link_from_faculty_list.txt', 'r').read()
-
+            prompt = prompt.replace('[profile_base_url]', profile_base_url)
             profile = self.ask_llm(prompt, str(html_content))
             profile = json.loads(profile)
             return profile
