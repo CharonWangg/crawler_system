@@ -42,8 +42,8 @@ class HTMLFinder:
             html_chunks = self.chunk_text(html, self.context_length_limit)
             prev_response = "" if substitute else []
             if substitute:
-                for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
-                # for i, chunk in enumerate(html_chunks):
+                # for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+                for i, chunk in enumerate(html_chunks):
                 # for long text chunks, update the result with the previous response
                     if i == 0:
                         content = prompt.replace('[html_content]', chunk)
@@ -62,7 +62,8 @@ class HTMLFinder:
                     prev_response = json.loads(response.choices[0].message.content)["result"]
                 response = prev_response
             else:
-                for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+                # for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+                for i, chunk in enumerate(html_chunks):
                     # for long text chunks, append the new response to the previous response
                     content = prompt.replace('[html_content]', chunk)
                     response = self.client.chat.completions.create(

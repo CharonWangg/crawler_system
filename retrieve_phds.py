@@ -15,7 +15,7 @@ from datetime import datetime
 log_dir = 'logs'
 os.makedirs(log_dir, exist_ok=True)
 current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-log_file = os.path.join(log_dir, f'{current_time}.log')
+log_file = os.path.join(log_dir, f'{current_time}_phds_retrieval.log')
 
 # Set up the logger to only log to a file
 logger = logging.getLogger(__name__)
@@ -73,8 +73,12 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
     df = pd.concat([df, pd.DataFrame([entry])], ignore_index=True)
     df.drop_duplicates(subset=['name'], keep='last', inplace=True)
     df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
+    logger.info(f"Saved profile for {entry['name']} to CSV")
 
-    return entry
+    return entry, df
+
+
+
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -98,37 +102,14 @@ if __name__ == '__main__':
     base_url = cfg['base_url']
     profile_base_url = cfg['profile_base_url']
 
-    logger.info("Starting to fetch faculty profiles")
-    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
-    if os.path.exists(os.path.join(data_dir, 'faculty_profiles.html')):
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'r', encoding='utf-8') as f:
-            soup = f.read()
+    logger.info("Fetching Graduate students/Postdocs' contacts from the gathered faculties.")
+    if os.path.exists(os.path.join(data_dir, 'faculty_profiles.csv')):
+        df = pd.read_csv(os.path.join(data_dir, 'faculty_profiles.csv'))
+        faculty_entries = df.to_dict(orient='records')
     else:
-        soup = web_browser.scroll_to_bottom(base_url)
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
-            f.write(str(soup))
+        logger.error('No faculty profiles found. Please run retrieve_faculty.py first.')
+        exit(1)
 
-    if os.path.exists(os.path.join(data_dir, 'faculty_entries.json')):
-        with open(os.path.join(data_dir, 'faculty_entries.json'), 'r') as f:
-            faculty_entries = json.load(f)
-    else:
-        html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
-                                 token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
-        faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
-        with open(os.path.join(data_dir, 'faculty_entries.json'), 'w') as f:
-            json.dump(faculty_entries, f)
+    print(faculty_entries)
 
-    logger.info(f"Finished fetching faculty entries, in total {len(faculty_entries)} entries.")
-    logger.info(str(faculty_entries))
 
-    # Create an empty DataFrame or load existing data
-    csv_path = os.path.join(data_dir, 'faculty_profiles.csv')
-    if os.path.exists(csv_path):
-        df = pd.read_csv(csv_path)
-    else:
-        df = pd.DataFrame()
-
-    for entry in faculty_entries:
-        fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir)
-
-    logger.info('All profiles have been processed and saved.')

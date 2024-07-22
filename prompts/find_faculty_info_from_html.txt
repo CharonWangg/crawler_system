@@ -7,11 +7,12 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "research domain" (keywords)
 "description" (summarization of research direction)
 "email" (convert to standard format)
-"avatar" (URL of image/avatar)
-"website" (lab/personal website)
+"avatar" (complete URL of image/avatar)
+"website" (complete URL of lab/personal website)
 "grad students" (dictionary of names and personal website links)
 "postdocs" (dictionary of names and personal website links)
-If any information is missing, include the key with an empty dictionary ({}).
+
+If any information is missing, include the key with an empty dictionary ({}). If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
 
 Return the result as a JSON object that has a "result" key indicating result return in the following format:
 {
