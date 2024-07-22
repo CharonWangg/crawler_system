@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/data/ucsd/datascience/faculty_profiles.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/test/ucsd/economics/faculty_profiles.csv">
           <value>
             <Attribute>

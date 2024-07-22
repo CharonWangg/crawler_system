@@ -1,13 +1,25 @@
-Extract the faculty profile address from the following HTML content. Only return the information in the format of a list of dicts that they have keys "name", "profile_address", "position", "department", "university" and "research domain". For the "profile_address", you would need to return the full url, which sometimes is not complete in this html and you might want to merge the base profile url with it: [profile_base_url]. Do not include any other text. Here is the HTML content:\n\n[html_content]\n\n
+Extract the faculty profile address from the following HTML content. Only return the information in the format of a list of dicts that they have keys "name", "profile_address", "position", "department", "university" and "research domain". For the "profile_address", you would need to return the full url, which sometimes is not complete in this html and you might want to merge the base profile url with it: [profile_base_url]. Also note that there might be faculties having similar names, be strict that do not mix them.
 For example:
 
-{
+[{
   "name": "Jeff",
   "profile_address": "https://www.yale/jeff.com",
   "position": "Assistant Professor",
   "department": "Biology",
   "university": "Yale",
   "research domain": "Gene analysis, Personalized medicine"
-}
+},
+{
+  "name": "Jack",
+  "profile_address": "https://www.yale/jack.com",
+  "position": "Associate Professor",
+  "department": "Biology",
+  "university": "Yale",
+  "research domain": "Cancer research, Personalized medicine"
+}]
+
+Here is the HTML content:
+
+[html_content]
 
 Return the result as a JSON object:

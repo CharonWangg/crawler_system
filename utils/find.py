@@ -136,7 +136,6 @@ class HTMLFinder:
         lab_section_links = self.find_relevant_links_in_lab_html(lab_pages)
         if lab_section_links:
             lab_soup = web_browser.multi_request(list(lab_section_links.values()))
-            lab_soup = [BeautifulSoup(response.content, 'html.parser') for response in lab_soup]
             lab_pages = lab_pages + "\n" + "\n".join([str(soup) for soup in lab_soup])
         return lab_pages
 
