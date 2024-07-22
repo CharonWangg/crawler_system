@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+
 from bs4 import BeautifulSoup
 import random
 
@@ -62,7 +64,7 @@ class WebBrowser:
                 self.driver.get(url)
                 return BeautifulSoup(self.driver.page_source, 'html.parser')
             except Exception as e:
-                print(f"An error occurred inside selenium browse: {e}")
+                print(f"An error occurred inside selenium browse: url {url} is not valid")
                 return None
 
     def multi_request(self, urls):
@@ -76,9 +78,7 @@ class WebBrowser:
 
     def google_search(self, query):
         search_url = f"https://www.google.com/search?q={query}"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-        response = requests.get(search_url, headers=headers)
+        response = requests.get(search_url)
         response.raise_for_status()
         return response
 
@@ -86,18 +86,29 @@ class WebBrowser:
         # URL of the main faculty profiles page
         self.driver.get(url)
 
+        # Hard-coding this part is too limited, use a LLM to analyze what should be done next to get the full page
+        # For example, when there is a 'table-responsive, LLM should use corresponding wait functions in selenium
+        try:
+            wait = WebDriverWait(self.driver, 5)
+            wait.until(EC.presence_of_all_elements_located((By.XPATH, '//*[@id="faculty"]')))
+        except TimeoutException:
+            # Handle the case where the faculty elements are not found
+            print("Faculty elements not found within the given time frame or there is no hidden table.")
+
         # Scroll down to load all dynamic content
-        scroll_pause_time = self.sleep_time # Pause time between scrolls
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
+        count = 0
         while True:
             # Scroll down to the bottom
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             # Wait for new content to load
-            time.sleep(scroll_pause_time)
+            time.sleep(self.sleep_time)
             # Calculate new scroll height and compare with last scroll height
             new_height = self.driver.execute_script("return document.body.scrollHeight")
             if new_height == last_height:
+                count += 1
+            if count > 5:
                 break
             last_height = new_height
 

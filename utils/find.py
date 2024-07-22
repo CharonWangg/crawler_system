@@ -9,12 +9,13 @@ from openai import OpenAI
 
 class HTMLFinder:
     model_context_limit = {
-        "gpt-4o-mini": 16000,
+        # 1:4 token/char ratio, use 1/4 of 128000 to have a large number of generated tokens
+        "gpt-4o-mini": 128000,
         "gpt-3.5-turbo": 40000
     }
     model_token_limit = {
-        "gpt-4o-mini": 60000,
-        "gpt-3.5-turbo": 200000
+        "gpt-4o-mini": 2000000,
+        "gpt-3.5-turbo": 2000000
     }
     def __init__(self, api_key, model="gpt-4o-mini", token_limit_per_minute=None):
         self.api_key = api_key
@@ -22,9 +23,9 @@ class HTMLFinder:
             api_key=api_key
         )
         self.model = model
-        self.context_length_limit = 240000
+        self.context_length_limit = self.model_context_limit[model]
         if token_limit_per_minute is None:
-            self.token_limit_per_minute = self.model_limit[model]
+            self.token_limit_per_minute = self.model_token_limit[model]
         else:
             self.token_limit_per_minute = token_limit_per_minute
         self.sleep_time = 60
@@ -36,37 +37,59 @@ class HTMLFinder:
         html_str = str(html_content)
         return [html_str[i:i + self.token_limit_per_minute] for i in range(0, len(html_str), self.token_limit_per_minute)]
 
-    def ask_llm(self, prompt, html=None):
-        try:
-            if html is not None and len(html) > self.context_length_limit:
-                html_chunks = self.chunk_text(html, self.context_length_limit)
-                prev_response = ""
+    def ask_llm(self, prompt, html, substitute=True):
+        if html is not None and len(html) > self.context_length_limit:
+            html_chunks = self.chunk_text(html, self.context_length_limit)
+            prev_response = "" if substitute else []
+            if substitute:
                 for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+                # for i, chunk in enumerate(html_chunks):
+                # for long text chunks, update the result with the previous response
+                    if i == 0:
+                        content = prompt.replace('[html_content]', chunk)
+                    else:
+                        content = (f"This is the {i} chunk of a long text, previous response is {prev_response}, "
+                                   f"if you don't find better answer for a specific content, use the "
+                                   f"answer of that content from the previous response.\n") + prompt.replace('[html_content]', chunk)
                     response = self.client.chat.completions.create(
+                        response_format={"type": "json_object"},
                         messages=[
                             {"role": "system", "content": open('prompts/system_prompt.txt', 'r').read()},
-                            {"role": "user", "content": f"This is the {i} chunk of a long text, previous response is {prev_response},"
-                                                        f"if you don't find better answer for a specific content, use the "
-                                                        f"answer of that content from the previous response.\n"
-                                                        + prompt.replace('[html_content]', chunk)}
+                            {"role": "user", "content": content}
                         ],
                         model=self.model,
                     )
-                    prev_response = json.loads(response.choices[0].message.content.replace('```json\n', '').replace('```', ''))
+                    prev_response = json.loads(response.choices[0].message.content)["result"]
+                response = prev_response
             else:
-                if html is not None:
-                    prompt = prompt.replace('[html_content]', html)
-                response = self.client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": open('prompts/system_prompt.txt', 'r').read()},
-                        {"role": "user", "content": prompt}
-                    ],
-                    model=self.model,
-                )
-            return response.choices[0].message.content.replace('```json\n', '').replace('```', '')
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
+                for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+                    # for long text chunks, append the new response to the previous response
+                    content = prompt.replace('[html_content]', chunk)
+                    response = self.client.chat.completions.create(
+                        response_format={"type": "json_object"},
+                        messages=[
+                            {"role": "system", "content": open('prompts/system_prompt.txt', 'r').read()},
+                            {"role": "user", "content": content}
+                        ],
+                        model=self.model,
+                    )
+                    prev_response.extend(json.loads(response.choices[0].message.content)["result"])
+                response = prev_response
+            return response
+        elif html is not None and len(html) < self.context_length_limit:
+            prompt = prompt.replace('[html_content]', html)
+            response = self.client.chat.completions.create(
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": open('prompts/system_prompt.txt', 'r').read()},
+                    {"role": "user", "content": prompt}
+                ],
+                model=self.model,
+            )
+            return json.loads(response.choices[0].message.content)["result"]
+        else:
+            # currently don't have cases that only need prompt
+            raise ValueError("html content is required")
 
     # def find_profile_with_bs4(self, html_content):
     #     # Find all the faculty profile entries
@@ -84,20 +107,22 @@ class HTMLFinder:
         def retrieve_profile(prompt):
             prompt = open('prompts/find_faculty_profile_link_from_faculty_list.txt', 'r').read()
             prompt = prompt.replace('[profile_base_url]', profile_base_url)
-            profile = self.ask_llm(prompt, str(html_content))
-            profile = json.loads(profile)
+            profile = self.ask_llm(prompt, str(html_content), substitute=False)
             return profile
 
-        if len(str(html_content)) > self.token_limit_per_minute:
-            html_chunks = self.chunk_html(html_content)
-            profiles = []
-            for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
-                profiles.extend(retrieve_profile(chunk))
-                # uncomment when rate_limit_exceeded
-                # if i != len(html_chunks) - 1:
-                #     time.sleep(self.sleep_time)  # Sleep to avoid rate limits
-        else:
-            profiles = retrieve_profile(html_content)
+        profiles = retrieve_profile(html_content)
+
+        # if len(str(html_content)) > self.token_limit_per_minute:
+        #     html_chunks = self.chunk_html(html_content)
+        #     profiles = []
+        #     for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
+        #     # for i, chunk in enumerate(html_chunks):
+        #         profiles.extend(retrieve_profile(chunk))
+        #         # uncomment when rate_limit_exceeded
+        #         # if i != len(html_chunks) - 1:
+        #         #     time.sleep(self.sleep_time)  # Sleep to avoid rate limits
+        # else:
+        #     profiles = retrieve_profile(html_content)
 
         return profiles
 
@@ -106,20 +131,17 @@ class HTMLFinder:
         prompt = open('prompts/find_faculty_info_from_html.txt', 'r').read()
         prompt += extra_prompt
         info = self.ask_llm(prompt, str(html_content))
-        info = json.loads(info)
         return info
 
     def find_relevant_links_in_google_html(self, html_content, query):
         prompt = open('prompts/google_search.txt', 'r').read()
         prompt = prompt.replace('[query]', str(query))
         info = self.ask_llm(prompt, str(html_content))
-        info = json.loads(info)
         return info
 
     def find_relevant_links_in_lab_html(self, html_content):
         prompt = open('prompts/lab_page_search.txt', 'r').read()
         info = self.ask_llm(prompt, str(html_content))
-        info = json.loads(info)
         return info
 
     def find_relevant_content_from_google(self, web_browser, query):
@@ -127,10 +149,10 @@ class HTMLFinder:
         google_links = self.find_relevant_links_in_google_html(search_html, query)
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))
-            personal_soup = [BeautifulSoup(response.content, 'html.parser') for response in personal_soup]
             personal_soup = "\n".join(
                 [f'This website link: {link}\n' + str(soup) for link, soup in zip(google_links, personal_soup)])
-        return personal_soup
+            return personal_soup
+        return ""
 
     def find_relevant_content_from_lab(self, web_browser, lab_pages):
         lab_section_links = self.find_relevant_links_in_lab_html(lab_pages)

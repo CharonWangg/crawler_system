@@ -1,7 +1,6 @@
 import json
 import time
 import logging
-from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm import tqdm
 import yaml
@@ -37,52 +36,47 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger):
     html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
-    try:
-        logger.info(f"Fetching profile for {entry['name']}")
-        official_soup = web_browser.browse(entry["profile_address"])
-        entry.update(html_finder.find_faculty_info_in_html(official_soup))
-        print(entry)
-        logger.info(f"Info after gathering from official profile: {entry}")
+    logger.info(f"Fetching profile for {entry['name']}")
+    official_soup = web_browser.browse(entry["profile_address"])
+    entry.update(html_finder.find_faculty_info_in_html(official_soup))
+    logger.info(f"Info after gathering from official profile: {entry}")
 
-        # Browse personal page gathered from faculty page
-        extra_prompt = open('prompts/substitute_previous_info.txt', 'r').read().replace('[previous_info]', str(entry))
-        if entry.get('website'):
-            personal_soup = web_browser.browse(entry['website'])
-            personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
-        else:
-            search_query = f"{entry['name']} {entry['university']}"
-            personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query)
-        personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup)
+    # Browse personal page gathered from faculty page
+    extra_prompt = open('prompts/substitute_previous_info.txt', 'r').read().replace('[previous_info]', str(entry))
+    if entry.get('website'):
+        personal_soup = web_browser.browse(entry['website'])
+        personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
+    else:
+        search_query = f"{entry['name']} {entry['university']}"
+        personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query)
+    personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup)
 
-        entry.update(html_finder.find_faculty_info_in_html(personal_soup, extra_prompt=extra_prompt))
+    entry.update(html_finder.find_faculty_info_in_html(personal_soup, extra_prompt=extra_prompt))
 
-        logger.info(f"Info after gathering from personal profile: {entry}")
+    logger.info(f"Info after gathering from personal profile: {entry}")
 
-        # Save the official and personal profile to files
-        profile_path = os.path.join(profile_dir, entry["name"])
-        os.makedirs(profile_path, exist_ok=True)
-        with open(os.path.join(profile_path, 'official_profile.html'), 'w', encoding='utf-8') as file:
-            file.write(str(official_soup))
-        if entry.get('website'):
-            with open(os.path.join(profile_path, 'personal_profile.html'), 'w', encoding='utf-8') as file:
-                file.write(str(personal_soup))
+    # Save the official and personal profile to files
+    profile_path = os.path.join(profile_dir, entry["name"])
+    os.makedirs(profile_path, exist_ok=True)
+    with open(os.path.join(profile_path, 'official_profile.html'), 'w', encoding='utf-8') as file:
+        file.write(str(official_soup))
+    if entry.get('website'):
+        with open(os.path.join(profile_path, 'personal_profile.html'), 'w', encoding='utf-8') as file:
+            file.write(str(personal_soup))
 
-        web_browser.quit()
+    web_browser.quit()
 
-        logger.info(f"Finished fetching profile for {entry['name']}")
-        logger.debug(entry)
+    logger.info(f"Finished fetching profile for {entry['name']}")
+    logger.debug(entry)
 
 
-        return entry
-    except Exception as e:
-        logger.error(f"An error occurred while fetching profile for {entry['name']}: {e}")
-        return None
+    return entry
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--config', type=str, default='configs/ucsd.yaml')
     parser.add_argument('--department', type=str, default='jacob')
-    parser.add_argument('--num_processes', type=int, default=1)
+    parser.add_argument('--num_processes', type=int, default=4)
     args = parser.parse_args()
 
     if os.environ.get('API_KEY') is None:
@@ -102,13 +96,9 @@ if __name__ == '__main__':
 
     logger.info("Starting to fetch faculty profiles")
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
-    if os.path.exists(os.path.join(data_dir, 'faculty_profiles.html')):
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'r', encoding='utf-8') as f:
-            soup = BeautifulSoup(f.read(), 'html.parser')
-    else:
-        soup = web_browser.scroll_to_bottom(base_url)
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
-            f.write(str(soup))
+    soup = web_browser.scroll_to_bottom(base_url)
+    with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
+        f.write(str(soup))
 
     if os.path.exists(os.path.join(data_dir, 'faculty_entries.json')):
         with open(os.path.join(data_dir, 'faculty_entries.json'), 'r') as f:

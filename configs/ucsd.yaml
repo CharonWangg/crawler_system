@@ -1,7 +1,7 @@
 jacob:
     base_url: https://jacobsschool.ucsd.edu/faculty/profiles
     profile_base_url: https://jacobsschool.ucsd.edu
-    data_dir: data/ucsd/engineering
+    data_dir: data/ucsd/jacob
 
 economics:
     base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles/index.html
@@ -12,3 +12,8 @@ hdsi:
     base_url: https://datascience.ucsd.edu/faculty
     profile_base_url: https://datascience.ucsd.edu/people
     data_dir: data/ucsd/datascience
+
+biology:
+    base_url: https://biology.ucsd.edu/research/faculty/index.html
+    profile_base_url: https://biology.ucsd.edu/research/faculty
+    data_dir: data/ucsd/biology

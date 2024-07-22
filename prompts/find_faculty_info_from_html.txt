@@ -1,41 +1,57 @@
-Extract the faculty position, department, university, and research domain (keywords), brief description (summarization) of research direction, email, his/her PhD students, his/her Postdocs, lab website/personal website, and the links of those PhD students and Postdocs (PhD students and Postdocs as dicts of names and corresponding personal website links from the following HTML content. Only return the information in the format of a dict with keys "name", position", "department", "university", "research domain", "description", "email", "website", "phd", "postdoc". If you cannot find relevant/matching content for specific keys, return {} for those keys. Note that you also need to convert the email you have received as the normal format, like name [at] upenn [dot] edu should be converted to name@upenn.edu and first_name@ucsd.edu should be competed with the first name you have found in the page. For example:
+Extract faculty information from the provided HTML content. Each faculty profile should include:
 
+"name"
+"position"
+"department"
+"university"
+"research domain" (keywords)
+"description" (summarization of research direction)
+"email" (convert to standard format)
+"avatar" (URL of image/avatar)
+"website" (lab/personal website)
+"grad students" (dictionary of names and personal website links)
+"postdocs" (dictionary of names and personal website links)
+If any information is missing, include the key with an empty dictionary ({}).
+
+Return the information in the following format. The "result" key indicating result return:
 {
-  "name": "Jeff",
-  "position": "Assistant Professor",
-  "department": "Biology",
-  "university": "UCSD",
-  "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
-  "description": "Dr. Jeff's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies like Next-Generation Sequencing and CRISPR-Cas9. He aims to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
-  "email": "jeff@ucsd.edu",
-  "website": {},
-  "phd": {},
-  "postdoc": {}
-}
-
-Or
-
-{
-  "name": "Jeff",
-  "position": "Assistant Professor",
-  "department": "Biology",
-  "university": "Yale",
-  "research domain": "Gene analysis, Personalized medicine",
-  "description": {},
-  "email": {},
-  "website": "www.jeff.com",
-  "phd": {
-    "Jack": "www.jack.com",
-    "Peter": "peter.github.io"
-  },
-  "postdoc": {
-    "Jack2": "www.jack2.com",
-    "Peter2": "peter2.com"
+  "result": {
+    "name": "Jeff",
+    "position": "Assistant Professor",
+    "department": "Biology",
+    "university": "UCSD",
+    "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
+    "description": "Dr. Jeff's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies like Next-Generation Sequencing and CRISPR-Cas9. He aims to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
+    "email": "jeff@ucsd.edu",
+    "avatar": "www.jeffavatar.com",
+    "website": "www.jeff.com",
+    "grad students": {
+      "Jack": "www.jack.com",
+      "Peter": "peter.github.io"
+    },
+    "postdocs": {
+      "Jack2": "www.jack2.com",
+      "Peter2": "peter2.com"
+    }
   }
 }
-
-if there are PhD or Postdocs listed. Do not include any other text. Here is the HTML content:
+If specific information is not found, use the following format:
+{
+  "result": {
+    "name": "Jeff",
+    "position": "Assistant Professor",
+    "department": "Biology",
+    "university": "UCSD",
+    "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
+    "description": {},
+    "email": {},
+    "avatar": {},
+    "website": {},
+    "grad students": {},
+    "postdocs": {}
+  }
+}
+==============================
+Here is the HTML content:
 
 [html_content]
-
-Return the result as a JSON object.

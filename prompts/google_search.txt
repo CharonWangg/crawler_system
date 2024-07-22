@@ -1,13 +1,27 @@
-You are going to carefully go through a web search result about for the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). Evaluate the titles, URLs, and descriptions of the top search results. Select those that appear most relevant and authoritative (e.g., official university websites, lab pages, reputable academic profiles). Return the most relevant pages links as a dict of URLs that is ranked by relevance from most to least relevant. Note that the most relevant pages should be no more than 2. If you cannot find relevant/matching content for specific keys, return {}. Return the result as a JSON object.
-For example, for the query: "Jeff UCSD":
+You are going to carefully go through a web search result about for the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). Evaluate the titles, URLs, and descriptions of the top search results. Select those that appear most relevant and authoritative (e.g., official university websites, lab pages, reputable academic profiles). Return the most relevant pages links as a dict of URLs that is ranked by relevance from most to least relevant. Note that the most relevant pages should be no more than 2. If you cannot find relevant/matching content for specific keys, return {}. Return the result as a JSON object. Return the information in the following format. The "result" key indicating result return:
 
+For example, for the query: "Jeff UCSD":
 {
-  "lab": "www.jefflab.com",
-  "yale official": "www.yale.com/jeff",
+    "result": {
+        "lab": "www.jefflab.com",
+        "yale official": "www.yale.com/jeff",
+    }
 }
 
+or
+
+{
+    "result": {
+        "lab": "www.jefflab.com",
+    }
+}
+
+or
+
+{
+    "result": {}
+}
+==================================
 Here is the HTML content:
 
 [html_content]
-
-Return the result as a JSON object.

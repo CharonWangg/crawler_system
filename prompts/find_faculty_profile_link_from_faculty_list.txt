@@ -1,25 +1,37 @@
-Extract the faculty profile address from the following HTML content. Only return the information in the format of a list of dicts that they have keys "name", "profile_address", "position", "department", "university" and "research domain". For the "profile_address", you would need to return the full url, which sometimes is not complete in this html and you might want to merge the base profile url with it: [profile_base_url]. Also note that there might be faculties having similar names, be strict that do not mix them.
-For example:
+Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys: "name", "profile_address", "position", "department", "university", and "research domain". Ensure the following:
 
-[{
-  "name": "Jeff",
-  "profile_address": "https://www.yale/jeff.com",
-  "position": "Assistant Professor",
-  "department": "Biology",
-  "university": "Yale",
-  "research domain": "Gene analysis, Personalized medicine"
-},
+- The "profile_address" must be a complete URL. If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
+- If any information is missing for a key, include that key with an empty dictionary ({}) as its value.
+- Handle faculty with similar names carefully to avoid mixing profiles. Ensure strict matching based on the provided HTML content.
+- Do not omit any faculty member listed in the HTML content who has a profile address.
+
+For incomplete URLs, concatenate the base URL with the relative path. For example, if the base URL is "https://www.university.com" and the relative path is "/faculty/john-doe", the complete URL should be "https://www.university.com/faculty/john-doe".
+
+If certain information is not available, represent it as follows:
 {
-  "name": "Jack",
-  "profile_address": "https://www.yale/jack.com",
-  "position": "Associate Professor",
-  "department": "Biology",
-  "university": "Yale",
-  "research domain": "Cancer research, Personalized medicine"
-}]
+  "name": "Jane Doe",
+  "profile_address": {},
+  "position": "Professor",
+  "department": "Physics",
+  "university": "MIT",
+  "research domain": {}
+}
 
+Return the result as a JSON object that has a "result" key indicating result return in the following format:
+{
+  "result": [
+    {
+      "name": "Jeff",
+      "profile_address": "https://www.yale/jeff.com",
+      "position": "Assistant Professor",
+      "department": "Biology",
+      "university": "Yale",
+      "research domain": "Gene analysis, Personalized medicine"
+    },
+    ...
+  ]
+}
+==================================
 Here is the HTML content:
 
 [html_content]
-
-Return the result as a JSON object:
