@@ -13,7 +13,7 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "postdocs" (dictionary of names and personal website links)
 If any information is missing, include the key with an empty dictionary ({}).
 
-Return the information in the following format. The "result" key indicating result return:
+Return the result as a JSON object that has a "result" key indicating result return in the following format:
 {
   "result": {
     "name": "Jeff",
@@ -35,6 +35,7 @@ Return the information in the following format. The "result" key indicating resu
     }
   }
 }
+
 If specific information is not found, use the following format:
 {
   "result": {

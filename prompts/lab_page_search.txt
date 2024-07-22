@@ -1,11 +1,12 @@
-Above is the lab/personal website link. Your task is to carefully analyze the given html content. The ultimate goal is to find relevant and precise information about this lab's research topics, projects, and team members (limited to PhD students and Postdocs). You are going to find and validate the relevant page links and return them as a dictionary of URLs. Note that you might need to concatenate the base link with the href link of specific sections. The sections might have similar meanings but not the exact words like team, research. Ensure the URLs are accurate and lead to the correct pages.
+Above is the lab/personal website link. Your task is to carefully analyze the given html content. The ultimate goal is to find relevant and precise information about this lab's research topics, projects, and team members (limited to graduate students and Postdocs, possible sections are team/members/people/lab members). You are going to find and validate the relevant page links and return them as a dictionary of URLs. Note that you might need to concatenate the base link with the href link of specific sections. The sections might have similar meanings but not the exact words like team, research. Ensure the URLs are accurate and lead to the correct pages.
 
 **Requirements:**
 - The number of the most relevant pages should be no more than 2.
 - If you cannot find relevant or matching content for specific keys, return an empty dictionary "{}".
 - Be strict about the URLs' validity; do not return made-up or placeholder links.
 - Only include URLs that you can confirm are correct by matching the href attributes in the HTML content.
-Return the information in the following format. The "result" key indicating result return:
+
+Return the result as a JSON object that has a "result" key indicating result return in the following format:
 
 {
     "result": {
@@ -14,19 +15,6 @@ Return the information in the following format. The "result" key indicating resu
     }
 }
 
-or
-
-{
-    "result": {
-        "research": "https://www.jefflab.com/research",
-    }
-}
-
-or
-
-{
-    "result": {}
-}
 ==================================
 Here is the HTML content:
 

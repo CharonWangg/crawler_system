@@ -49,8 +49,8 @@ class HTMLFinder:
                         content = prompt.replace('[html_content]', chunk)
                     else:
                         content = (f"This is the {i} chunk of a long text, previous response is {prev_response}, "
-                                   f"if you don't find better answer for a specific content, use the "
-                                   f"answer of that content from the previous response.\n") + prompt.replace('[html_content]', chunk)
+                                   f"if you don't find better information for a specific content, use the "
+                                   f"information that content from the previous response.\n") + prompt.replace('[html_content]', chunk)
                     response = self.client.chat.completions.create(
                         response_format={"type": "json_object"},
                         messages=[

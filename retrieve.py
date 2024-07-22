@@ -69,7 +69,6 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger):
     logger.info(f"Finished fetching profile for {entry['name']}")
     logger.debug(entry)
 
-
     return entry
 
 if __name__ == '__main__':
@@ -96,9 +95,13 @@ if __name__ == '__main__':
 
     logger.info("Starting to fetch faculty profiles")
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
-    soup = web_browser.scroll_to_bottom(base_url)
-    with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
-        f.write(str(soup))
+    if os.path.exists(os.path.join(data_dir, 'faculty_profiles.html')):
+        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'r', encoding='utf-8') as f:
+            soup = f.read()
+    else:
+        soup = web_browser.scroll_to_bottom(base_url)
+        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
+            f.write(str(soup))
 
     if os.path.exists(os.path.join(data_dir, 'faculty_entries.json')):
         with open(os.path.join(data_dir, 'faculty_entries.json'), 'r') as f:
@@ -113,14 +116,16 @@ if __name__ == '__main__':
     logger.info(f"Finished fetching faculty entries, in total {len(faculty_entries)} entries.")
     logger.info(str(faculty_entries))
 
-    with ProcessPoolExecutor(max_workers=args.num_processes) as executor:
-        future_to_entry = {executor.submit(fetch_profile, entry, api_key, crawler_cfg, profile_dir, logger): entry for entry in faculty_entries}
-        results = []
-        for future in tqdm(as_completed(future_to_entry), total=len(future_to_entry), desc="Fetching faculty profiles"):
-            result = future.result()
-            if result:
-                results.append(result)
-                time.sleep(crawler_cfg['sleep_time'])
+    results = [fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger) for entry in faculty_entries]
+
+    # with ProcessPoolExecutor(max_workers=args.num_processes) as executor:
+    #     future_to_entry = {executor.submit(fetch_profile, entry, api_key, crawler_cfg, profile_dir, logger): entry for entry in faculty_entries}
+    #     results = []
+    #     for future in tqdm(as_completed(future_to_entry), total=len(future_to_entry), desc="Fetching faculty profiles"):
+    #         result = future.result()
+    #         if result:
+    #             results.append(result)
+    #             time.sleep(crawler_cfg['sleep_time'])
 
     df = pd.DataFrame(results)
     df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)

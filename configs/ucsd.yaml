@@ -17,3 +17,63 @@ biology:
     base_url: https://biology.ucsd.edu/research/faculty/index.html
     profile_base_url: https://biology.ucsd.edu/research/faculty
     data_dir: data/ucsd/biology
+
+psychology:
+    base_url: https://psychology.ucsd.edu/people/faculty.html
+    profile_base_url: https://psychology.ucsd.edu/people/profiles
+    data_dir: data/ucsd/psychology
+
+hdsi:
+    base_url: https://datascience.ucsd.edu/faculty/
+    profile_base_url: https://datascience.ucsd.edu/people/
+    data_dir: data/ucsd/hdsi
+
+psychiatry:
+    base_url: https://psychiatry.ucsd.edu/faculty/index.html
+    profile_base_url: https://profiles.ucsd.edu/
+    data_dir: data/ucsd/psychiatry
+
+chemistry:
+    base_url: https://chemistry.ucsd.edu/faculty/index.shtml
+    profile_base_url: https://chemistry.ucsd.edu/faculty/profiles/
+    data_dir: data/ucsd/chemistry
+
+physics:
+    base_url: https://physics.ucsd.edu/people/faculty
+    profile_base_url: https://physics.ucsd.edu/people/
+    data_dir: data/ucsd/physics
+
+rady:
+    base_url: https://rady.ucsd.edu/faculty-research/faculty/index.html
+    profile_base_url: https://rady.ucsd.edu/faculty-research/faculty/
+    data_dir: data/ucsd/rady
+
+politics:
+    base_url: https://polisci.ucsd.edu/people/faculty/faculty-directory/currently-active-faculty/index.html
+    profile_base_url: https://polisci.ucsd.edu/people/faculty/faculty-directory/currently-active-faculty/
+    data_dir: data/ucsd/politics
+
+global:
+    base_url: https://gps.ucsd.edu/faculty-research/faculty.html
+    profile_base_url: https://gps.ucsd.edu/faculty-directory/
+    data_dir: data/ucsd/global
+
+sociology:
+    base_url: https://sociology.ucsd.edu/people/faculty/index.html
+    profile_base_url: https://sociology.ucsd.edu/people/faculty/faculty%20members/
+    data_dir: data/ucsd/sociology
+
+math:
+    base_url: https://math.ucsd.edu/people/faculty
+    profile_base_url: https://math.ucsd.edu/people/profiles/
+    data_dir: data/ucsd/math
+
+tilos:
+    base_url: https://tilos.ai/team/#faculty
+    profile_base_url: https://tilos.ai/team/#faculty
+    data_dir: data/ucsd/tilos
+
+medicine:
+    base_url: https://med.ucsd.edu/about/faculty-directory.html
+    profile_base_url: https://profiles.ucsd.edu/
+    data_dir: data/ucsd/medicine

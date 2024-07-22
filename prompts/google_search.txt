@@ -8,19 +8,6 @@ For example, for the query: "Jeff UCSD":
     }
 }
 
-or
-
-{
-    "result": {
-        "lab": "www.jefflab.com",
-    }
-}
-
-or
-
-{
-    "result": {}
-}
 ==================================
 Here is the HTML content:
 
