@@ -1,6 +1,7 @@
-Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys: "name", "profile_address", "position", "department", "university", and "research domain". Ensure the following:
+Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys: "name", "avatar", "profile_address", "position", "department", "university", and "research domain". Ensure the following:
 
 - The "profile_address" must be a complete URL. If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
+- The "avatar" must be a complete URL of the image/avatar of a specific faculty. If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
 - If any information is missing for a key, include that key with an empty dictionary ({}) as its value.
 - Handle faculty with similar names carefully to avoid mixing profiles. Ensure strict matching based on the provided HTML content.
 - Do not omit any faculty member listed in the HTML content who has a profile address.
@@ -10,6 +11,7 @@ For incomplete URLs, concatenate the base URL with the relative path. For exampl
 If certain information is not available, represent it as follows:
 {
   "name": "Jane Doe",
+  "avatar": "https://www.janedoe.com/avatar.jpg",
   "profile_address": {},
   "position": "Professor",
   "department": "Physics",
@@ -22,6 +24,7 @@ Return the result as a JSON object that has a "result" key indicating result ret
   "result": [
     {
       "name": "Jeff",
+      "avatar": "https://www.jeff.com/avatar.jpg",
       "profile_address": "https://www.yale/jeff.com",
       "position": "Assistant Professor",
       "department": "Biology",

@@ -31,7 +31,7 @@ if not logger.handlers:
     # Add the file handler to the logger
     logger.addHandler(file_handler)
 
-def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger):
+def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir):
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
     html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
@@ -68,6 +68,11 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger):
 
     logger.info(f"Finished fetching profile for {entry['name']}")
     logger.debug(entry)
+
+    # Update the DataFrame and save it
+    df = pd.concat([df, pd.DataFrame([entry])], ignore_index=True)
+    df.drop_duplicates(subset=['name'], keep='last', inplace=True)
+    df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
 
     return entry
 
@@ -116,17 +121,14 @@ if __name__ == '__main__':
     logger.info(f"Finished fetching faculty entries, in total {len(faculty_entries)} entries.")
     logger.info(str(faculty_entries))
 
-    results = [fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger) for entry in faculty_entries]
+    # Create an empty DataFrame or load existing data
+    csv_path = os.path.join(data_dir, 'faculty_profiles.csv')
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+    else:
+        df = pd.DataFrame()
 
-    # with ProcessPoolExecutor(max_workers=args.num_processes) as executor:
-    #     future_to_entry = {executor.submit(fetch_profile, entry, api_key, crawler_cfg, profile_dir, logger): entry for entry in faculty_entries}
-    #     results = []
-    #     for future in tqdm(as_completed(future_to_entry), total=len(future_to_entry), desc="Fetching faculty profiles"):
-    #         result = future.result()
-    #         if result:
-    #             results.append(result)
-    #             time.sleep(crawler_cfg['sleep_time'])
+    for entry in faculty_entries:
+        fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir)
 
-    df = pd.DataFrame(results)
-    df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
-    logger.info('Data has been saved to faculty_profiles.csv')
+    logger.info('All profiles have been processed and saved.')
