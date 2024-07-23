@@ -59,7 +59,11 @@ if __name__ == '__main__':
                 official_path = os.path.join(profile_dir, row['name'], 'official_profile.html')
                 personal_path = os.path.join(profile_dir, row['name'], 'personal_profile.html')
                 official_text = retrieve_profile_text(official_path)
-                personal_text = retrieve_profile_text(personal_path)
+                try:
+                    personal_text = retrieve_profile_text(personal_path)
+                except Exception as e:
+                    print(f"{row['name']} does not have a personal profile")
+                    personal_text = ""
                 # merge the two texts
                 prompt = open('prompts/find_research_keywords_in_html.txt', 'r').read()
                 html_content = ("\nHere is the personal website of this researcher in the department/university website:\n"
@@ -70,7 +74,7 @@ if __name__ == '__main__':
                 df.at[i, 'keyword'] = keyword
             df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
         except Exception as e:
-            logger.error(f"{department} has not been collected")
+            logger.error(f"{e}, {department} might not be collected")
             continue
 
 

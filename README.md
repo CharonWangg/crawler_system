@@ -41,3 +41,8 @@ Raw scraped personal and official information are stored in the `data/<universit
    ```
    python retrieve_mentee.py --department jacob --num_processes 1
    ```
+   
+3. Fetch top N (50) research keywords from the local stored official and personal profiles for a specific researcher:
+   ```
+   python retrieve_keyword.py --department hdsi
+   ```
