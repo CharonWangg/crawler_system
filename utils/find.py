@@ -159,7 +159,7 @@ class HTMLFinder:
         return info
 
     def find_relevant_content_from_google(self, web_browser, query, previous_info=""):
-        search_html = BeautifulSoup(web_browser.google_search(query).content, 'html.parser')
+        search_html = BeautifulSoup(web_browser.google_search(query), 'html.parser')
         google_links = self.find_relevant_links_in_google_html(search_html, query, previous_info)
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))

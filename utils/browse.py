@@ -4,16 +4,20 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from base64 import b64decode
+import json
 
 from bs4 import BeautifulSoup
 import random
 
 class WebBrowser:
-    def __init__(self, headless=True, sleep_time=0.5):
+    def __init__(self, headless=True, proxy=False, sleep_time=0.5):
         self.headless = headless
+        self.proxy = proxy
         self.sleep_time = sleep_time
         self.init_browser()
 
@@ -77,9 +81,30 @@ class WebBrowser:
         return responses
 
     def google_search(self, query):
-        search_url = f"https://www.google.com/search?q={query}"
-        response = requests.get(search_url)
-        response.raise_for_status()
+        if self.proxy:
+            # Use Zyte API to get rotated proxies
+            search_url = f"https://www.google.com/search?q={query}"
+            api_response = requests.post(
+                "https://api.zyte.com/v1/extract",
+                auth=("PROXY_API_KEY_HERE", ""),
+                json={
+                    "url": search_url,
+                    "httpResponseBody": True,
+                },
+            )
+            response = b64decode(
+                api_response.json()["httpResponseBody"])
+        else:
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                return BeautifulSoup(response.content, 'html.parser')
+            except Exception as e:
+                self.driver.get("https://www.google.com")
+                q = self.driver.find_element(By.NAME, 'q')
+                q.send_keys(query)
+                q.submit()
+                response = self.driver.page_source
         return response
 
     def scroll_to_bottom(self, url):
