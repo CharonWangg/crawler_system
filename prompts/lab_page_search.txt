@@ -1,7 +1,7 @@
-Above is the lab/personal website link. Your task is to carefully analyze the given html content. The ultimate goal is to find relevant and precise information about this lab's research topics, projects, and team members (limited to graduate students and Postdocs, possible sections are team/members/people/lab members). You are going to find and validate the relevant page links and return them as a dictionary of URLs. Note that you might need to concatenate the base link with the href link of specific sections. The sections might have similar meanings but not the exact words like team, research. Ensure the URLs are accurate and lead to the correct pages.
+Your task is to carefully analyze the given HTML content which is related to a researcher [previous_info].  to find relevant and precise information about his/her lab's research topics, projects, and team members (possible sections are team/members/people/lab members). You are going to find and validate the relevant page links and return them as a dictionary of URLs. Note that you might need to concatenate the base link with the href link of specific sections. The sections might have similar meanings but not the exact words like team, research. Ensure the URLs are accurate and lead to the correct pages.
 
 **Requirements:**
-- The number of the most relevant pages should be no more than 2.
+- The number of the most relevant page links should be no more than 2.
 - If you cannot find relevant or matching content for specific keys, return an empty dictionary "{}".
 - Be strict about the URLs' validity; do not return made-up or placeholder links.
 - Only include URLs that you can confirm are correct by matching the href attributes in the HTML content.
@@ -16,6 +16,13 @@ Return the result as a JSON object that has a "result" key indicating result ret
 }
 
 ==================================
+Here are previous gathered information about this lab's owner :
+
+[previous_info]
+
+Be cautious, if some of the result links are not related to the lab owner. Please exclude them from the result.
+
 Here is the HTML content:
 
 [html_content]
+

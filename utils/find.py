@@ -17,7 +17,7 @@ class HTMLFinder:
         "gpt-4o-mini": 2000000,
         "gpt-3.5-turbo": 2000000
     }
-    def __init__(self, api_key, model="gpt-4o-mini", token_limit_per_minute=None):
+    def __init__(self, api_key, logger, model="gpt-4o-mini", token_limit_per_minute=None):
         self.api_key = api_key
         self.client = OpenAI(
             api_key=api_key
@@ -29,6 +29,7 @@ class HTMLFinder:
         else:
             self.token_limit_per_minute = token_limit_per_minute
         self.sleep_time = 60
+        self.logger = logger
 
     def chunk_text(self, text, max_length):
         return [text[i:i + max_length] for i in range(0, len(text), max_length)]
@@ -146,12 +147,15 @@ class HTMLFinder:
         prompt = prompt.replace('[query]', str(query))
         prompt = prompt.replace('[previous_info]', str(previous_info))
         info = self.ask_llm(prompt, str(html_content))
+        self.logger.info(f"Relevant links found in google: {info}")
+
         return info
 
     def find_relevant_links_in_lab_html(self, html_content, previous_info=""):
         prompt = open('prompts/lab_page_search.txt', 'r').read()
         prompt = prompt.replace('[previous_info]', str(previous_info))
         info = self.ask_llm(prompt, str(html_content))
+        self.logger.info(f"Relevant links found in lab website: {info}")
         return info
 
     def find_relevant_content_from_google(self, web_browser, query, previous_info=""):
@@ -160,7 +164,7 @@ class HTMLFinder:
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))
             personal_soup = "\n".join(
-                [f'This website link: {link}\n' + str(soup) for link, soup in zip(google_links, personal_soup)])
+                ['='*10 + f'\nThis {name} website link: {link}\n' + str(soup) for (name, link), soup in zip(google_links.items(), personal_soup)])
             return personal_soup
         return ""
 

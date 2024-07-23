@@ -8,7 +8,7 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "description" (a summarization of research direction)
 "email" (convert to standard format)
 "avatar" (complete URL of image/avatar)
-"website" (complete URL of lab/personal website)
+"website" (complete URL of lab/personal website, lab/personal website is better than the school/department website)
 "grad students" (dictionary of names and personal website links)
 "postdocs" (dictionary of names and personal website links)
 

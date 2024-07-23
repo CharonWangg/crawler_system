@@ -1,18 +1,23 @@
-You are going to carefully go through a web search result about for the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). Evaluate the titles, URLs, and descriptions of the top search results. Select those that appear most relevant and authoritative (e.g., official university websites, lab pages, reputable academic profiles). Return the most relevant pages links as a dict of URLs that is ranked by relevance from most to least relevant. Note that the most relevant pages should be no more than 2. If you cannot find relevant/matching content for specific keys, return {}. Return the result as a JSON object. Return the information in the following format. The "result" key indicating result return:
+You are going to carefully go through a web search result about the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). The ultimate goal after this step is to find relevant and precise information about this lab's research topics, projects, and team members (limited to graduate students and Postdocs, possible sections are team/members/people/lab members/group).
 
-For example, for the query: "Jeff UCSD":
+1. Evaluate the titles, URLs, and descriptions of the top search results.
+2. Select those that appear most relevant and authoritative (e.g., lab pages, reputable personal academic profiles, don't include personal website which are in the department/school official page).
+3. Return the most relevant pages links as a dict of URLs that is ranked by relevance from most to least relevant. Note that the most relevant pages should be no more than 2 (Ideally should include a lab website and a personal/official website).
+4. If you cannot find relevant/matching content for specific keys, return {}.
+5. Return the result as a JSON object. Return the information in the following format. The "result" key indicating result return:
+
+For example, for the query: "UCSD Jeff lab":
+
 {
     "result": {
         "lab": "www.jefflab.com",
-        "yale official": "www.yale.com/jeff",
+        "personal": "www.jeff.com"
     }
 }
 
 ==================================
-Here is the relevant url gathered before. If you find it is good then include it in the return result, and don't include it if it is suspicious (e.g. it is a email address).
-
 [previous_info]
 
-Here is the HTML content:
+HTML Content:
 
 [html_content]

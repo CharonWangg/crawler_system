@@ -16,7 +16,7 @@ def configure_logging(department):
     log_dir = 'logs'
     os.makedirs(log_dir, exist_ok=True)
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = os.path.join(log_dir, f'{current_time}_{department}_phds_retrieval.log')
+    log_file = os.path.join(log_dir, f'{current_time}_{department}_faculty_retrieval.log')
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -40,14 +40,14 @@ def name_in_column(df, name, ignore_middle_name=True):
         def normalize_name(n):
             n = n.replace(',', '').strip()
             parts = n.split()
-            return ' '.join(parts[:2])
+            return ' '.join([parts[0], parts[-1]])
 
         def name_variants(n):
             parts = n.split()
             if len(parts) < 2:
                 return [n]
-            first_last = ' '.join(parts[:2])
-            last_first = ' '.join(parts[::-1][:2])
+            first_last = ' '.join([parts[0], parts[-1]])
+            last_first = ' '.join([parts[-1], parts[0]])
             return [first_last, last_first]
 
         if ignore_middle_name:
@@ -68,7 +68,7 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
         logger.info(f"Profile for {entry['name']} already exists, skipping")
         return entry, df
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
-    html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
+    html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     logger.info(f"Fetching profile for {entry['name']}")
@@ -76,14 +76,15 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
     entry.update(html_finder.find_faculty_info_in_html(official_soup, previous_info=entry))
     logger.info(f"Info after gathering from official profile: {entry}")
 
-    # Browse personal page gathered from faculty page
-    if entry.get('website'):
-        personal_soup = web_browser.browse(entry['website'])
-        personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
-    else:
-        search_query = f"{entry['name']} {entry['university']}"
-        personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query)
-    personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup)
+    # Browse personal page gathered from faculty page and google to find more information
+    search_query = f"{entry['university']} {entry['name']} lab website"
+
+    google_prompt = (f"Here is the relevant url gathered before {entry['website']}, "
+                     f"include it if you find it align with your your search result analysis. "
+                     f"Do not include these URLs in the result:\n{entry['profile_address']}\n")
+    personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query,
+                                                                  previous_info=google_prompt)
+    personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup, previous_info=entry)
 
     entry.update(html_finder.find_faculty_info_in_html(personal_soup, previous_info=entry))
 
@@ -148,7 +149,7 @@ if __name__ == '__main__':
         with open(os.path.join(data_dir, 'faculty_entries.json'), 'r') as f:
             faculty_entries = json.load(f)
     else:
-        html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
+        html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
                                  token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
         faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
         with open(os.path.join(data_dir, 'faculty_entries.json'), 'w') as f:
