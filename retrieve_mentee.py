@@ -11,6 +11,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 import ast
+from .retrieve_faculty import name_in_column
 
 
 # Configure logging
@@ -102,6 +103,9 @@ def build_mentee_df(mentee_entries, api_key, crawler_cfg, logger):
 
     for entry in tqdm(mentee_entries, desc='Fetching mentee profiles'):
         entry['name'] = entry['name'].replace('Dr. ', '')
+        if name_in_column(df.copy(), entry['name']):
+            logger.info(f"Profile for {entry['name']} already exists, skipping")
+            continue
         new_entry, df = fetch_mentee_info(entry, api_key, crawler_cfg, df, logger)
     return df
 
