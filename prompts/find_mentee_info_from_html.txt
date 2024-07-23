@@ -1,0 +1,56 @@
+Extract the requested information of the web page owner from the provided HTML content. Each profile should include:
+
+"name"
+"position"
+"department"
+"university"
+"research domain" (a sentence that includes research domain concepts/keywords)
+"description" (a summarization of research direction)
+"email" (convert to standard format)
+"avatar" (complete URL of image/avatar)
+"website" (complete URL of lab/personal website)
+"mentor" (dictionary of names and personal website links)
+
+If any information is missing, include the key with an empty dictionary ({}). If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url]. The mentor should at least include the provided primary mentor names and their personal website links, please add other mentors if you find more in the HTML content.
+
+Return the result as a JSON object that has a "result" key indicating result return in the following format:
+{
+  "result": {
+    "name": "John Doe",
+    "position": "Postdoc",
+    "department": "Mechanical and Aerospace Engineering",
+    "university": "UC San Diego",
+    "research domain": "Computational plasma physics, Laser-plasma interactions, High energy density physics, Kinetic plasma phenomena, Numerical algorithms",
+    "description": "John Doe's research focuses on light-matter interactions at extreme light intensities, examining relativistic and quantum effects. His work investigates laser-plasma interactions and the resulting phenomena, leveraging high-performance computing to explore new states of matter and potential applications in fundamental and applied research.",
+    "email": "johndoe@ucsd.edu",
+    "avatar": "https://example.com/avatar.jpg",
+    "website": "https://example.com",
+    "mentor": {
+      "Alexey Arefiev": "https://laserplasma.ucsd.edu/user/28"
+    }
+  }
+}
+
+If specific information is not found, use the following format:
+{
+  "result": {
+    "name": "John Doe",
+    "position": "Postdoc",
+    "department": "Mechanical and Aerospace Engineering",
+    "university": "UC San Diego",
+    "research domain": {},
+    "description": {},
+    "email": {},
+    "avatar": {},
+    "website": {},
+    "mentor": {
+      "Alexey Arefiev": "https://laserplasma.ucsd.edu/user/28"
+    }
+  }
+}
+==============================
+Here is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this HTML content less informative and useful than the previous value, please adopt the previous value for that specific content.
+
+Here is the HTML content:
+
+[html_content]

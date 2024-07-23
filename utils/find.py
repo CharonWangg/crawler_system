@@ -127,27 +127,36 @@ class HTMLFinder:
 
         return profiles
 
-    def find_faculty_info_in_html(self, html_content, extra_prompt=""):
+    def find_faculty_info_in_html(self, html_content, previous_info=""):
         # Prompt to instruct GPT-4 to extract email from the HTML content
         prompt = open('prompts/find_faculty_info_from_html.txt', 'r').read()
-        prompt += extra_prompt
+        prompt = prompt.replace('[previous_info]', str(previous_info))
         info = self.ask_llm(prompt, str(html_content))
         return info
 
-    def find_relevant_links_in_google_html(self, html_content, query):
+    def find_mentee_info_in_html(self, html_content, previous_info=""):
+        # Prompt to instruct GPT-4 to extract email from the HTML content
+        prompt = open('prompts/find_mentee_info_from_html.txt', 'r').read()
+        prompt = prompt.replace('[previous_info]', str(previous_info))
+        info = self.ask_llm(prompt, str(html_content))
+        return info
+
+    def find_relevant_links_in_google_html(self, html_content, query, previous_info=""):
         prompt = open('prompts/google_search.txt', 'r').read()
         prompt = prompt.replace('[query]', str(query))
+        prompt = prompt.replace('[previous_info]', str(previous_info))
         info = self.ask_llm(prompt, str(html_content))
         return info
 
-    def find_relevant_links_in_lab_html(self, html_content):
+    def find_relevant_links_in_lab_html(self, html_content, previous_info=""):
         prompt = open('prompts/lab_page_search.txt', 'r').read()
+        prompt = prompt.replace('[previous_info]', str(previous_info))
         info = self.ask_llm(prompt, str(html_content))
         return info
 
-    def find_relevant_content_from_google(self, web_browser, query):
+    def find_relevant_content_from_google(self, web_browser, query, previous_info=""):
         search_html = BeautifulSoup(web_browser.google_search(query).content, 'html.parser')
-        google_links = self.find_relevant_links_in_google_html(search_html, query)
+        google_links = self.find_relevant_links_in_google_html(search_html, query, previous_info)
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))
             personal_soup = "\n".join(
@@ -155,8 +164,8 @@ class HTMLFinder:
             return personal_soup
         return ""
 
-    def find_relevant_content_from_lab(self, web_browser, lab_pages):
-        lab_section_links = self.find_relevant_links_in_lab_html(lab_pages)
+    def find_relevant_content_from_lab(self, web_browser, lab_pages, previous_info=""):
+        lab_section_links = self.find_relevant_links_in_lab_html(lab_pages, previous_info)
         if lab_section_links:
             lab_soup = web_browser.multi_request(list(lab_section_links.values()))
             lab_pages = lab_pages + "\n" + "\n".join([str(soup) for soup in lab_soup])

@@ -4,8 +4,8 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "position"
 "department"
 "university"
-"research domain" (keywords)
-"description" (summarization of research direction)
+"research domain" (a sentence that includes research domain concepts/keywords)
+"description" (a summarization of research direction)
 "email" (convert to standard format)
 "avatar" (complete URL of image/avatar)
 "website" (complete URL of lab/personal website)
@@ -54,6 +54,8 @@ If specific information is not found, use the following format:
   }
 }
 ==============================
+Here is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this HTML content less informative and useful than the previous value, please adopt the previous value for that specific content.
+
 Here is the HTML content:
 
 [html_content]

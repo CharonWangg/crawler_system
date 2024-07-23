@@ -11,38 +11,68 @@ import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 
-# Configure logging
-log_dir = 'logs'
-os.makedirs(log_dir, exist_ok=True)
-current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-log_file = os.path.join(log_dir, f'{current_time}_faculty_retrieval.log')
 
-# Set up the logger to only log to a file
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+def configure_logging(department):
+    log_dir = 'logs'
+    os.makedirs(log_dir, exist_ok=True)
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(log_dir, f'{current_time}_{department}_phds_retrieval.log')
 
-# Check if the logger has handlers, and only add handlers if it doesn't
-if not logger.handlers:
-    # File handler to save logs to a file
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(logging.INFO)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
 
-    # Add the file handler to the logger
-    logger.addHandler(file_handler)
+    if not logger.handlers:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+    return logger
+
+
+def name_in_column(df, name, ignore_middle_name=True):
+    # Normalize the names in the DataFrame and the input name
+    df['normalized_name'] = df['name'].str.lower()
+    name = name.lower()
+
+    def normalize_name(n):
+        n = n.replace(',', '').strip()
+        parts = n.split()
+        return ' '.join(parts[:2])
+
+    def name_variants(n):
+        parts = n.split()
+        if len(parts) < 2:
+            return [n]
+        first_last = ' '.join(parts[:2])
+        last_first = ' '.join(parts[::-1][:2])
+        return [first_last, last_first]
+
+    if ignore_middle_name:
+        # Normalize names and create variants
+        df['first_last_variants'] = df['normalized_name'].apply(lambda x: name_variants(normalize_name(x)))
+        input_variants = name_variants(normalize_name(name))
+
+        # Check if any variant matches
+        return any(variant in df['first_last_variants'].explode().values for variant in input_variants)
+    else:
+        return name in df['normalized_name'].values
 
 def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir):
+    if name_in_column(df.copy(), entry['name']):
+        logger.info(f"Profile for {entry['name']} already exists, skipping")
+        return entry, df
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
     html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     logger.info(f"Fetching profile for {entry['name']}")
     official_soup = web_browser.browse(entry["profile_address"])
-    entry.update(html_finder.find_faculty_info_in_html(official_soup))
+    entry.update(html_finder.find_faculty_info_in_html(official_soup, previous_info=entry))
     logger.info(f"Info after gathering from official profile: {entry}")
 
     # Browse personal page gathered from faculty page
-    extra_prompt = open('prompts/substitute_previous_info.txt', 'r').read().replace('[previous_info]', str(entry))
     if entry.get('website'):
         personal_soup = web_browser.browse(entry['website'])
         personal_soup = f"This website: {entry['website']}\n" + str(personal_soup)
@@ -51,7 +81,7 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
         personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query)
     personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup)
 
-    entry.update(html_finder.find_faculty_info_in_html(personal_soup, extra_prompt=extra_prompt))
+    entry.update(html_finder.find_faculty_info_in_html(personal_soup, previous_info=entry))
 
     logger.info(f"Info after gathering from personal profile: {entry}")
 
@@ -92,6 +122,7 @@ if __name__ == '__main__':
     api_key = os.environ.get('API_KEY')
 
     # Initialization
+    logger = configure_logging(args.department)
     data_dir = cfg['data_dir']
     profile_dir = os.path.join(data_dir, 'profiles')
     os.makedirs(data_dir, exist_ok=True)

@@ -9,6 +9,10 @@ For example, for the query: "Jeff UCSD":
 }
 
 ==================================
+Here is the relevant url gathered before. If you find it is good then include it in the return result, and don't include it if it is suspicious (e.g. it is a email address).
+
+[previous_info]
+
 Here is the HTML content:
 
 [html_content]
