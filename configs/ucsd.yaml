@@ -6,7 +6,6 @@ jacob:
 economics:
     base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles/index.html
     profile_base_url: https://economics.ucsd.edu/faculty-and-research/faculty-profiles
-<<<<<<< HEAD
     data_dir: data/ucsd/economics
 
 hdsi:
@@ -78,6 +77,3 @@ medicine:
     base_url: https://med.ucsd.edu/about/faculty-directory.html
     profile_base_url: https://profiles.ucsd.edu/
     data_dir: data/ucsd/medicine
-=======
-    data_dir: data/ucsd/economics
->>>>>>> f8a22d4 (resolve conflict)
