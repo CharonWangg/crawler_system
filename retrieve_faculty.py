@@ -12,11 +12,11 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 
 
-def configure_logging(department):
+def configure_logging(department, type='faculty'):
     log_dir = 'logs'
     os.makedirs(log_dir, exist_ok=True)
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = os.path.join(log_dir, f'{current_time}_{department}_faculty_retrieval.log')
+    log_file = os.path.join(log_dir, f'{current_time}_{department}_{type}_retrieval.log')
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -72,7 +72,7 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     logger.info(f"Fetching profile for {entry['name']}")
-    official_soup = web_browser.browse(entry["profile_address"])
+    official_soup = web_browser.browse(entry["profile_address"], human_browse=True)
     entry.update(html_finder.find_faculty_info_in_html(official_soup, previous_info=entry))
     logger.info(f"Info after gathering from official profile: {entry}")
 

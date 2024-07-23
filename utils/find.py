@@ -163,6 +163,7 @@ class HTMLFinder:
         google_links = self.find_relevant_links_in_google_html(search_html, query, previous_info)
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))
+            # only use the text part to exact content
             personal_soup = "\n".join(
                 ['='*10 + f'\nThis {name} website link: {link}\n' + str(soup) for (name, link), soup in zip(google_links.items(), personal_soup)])
             return personal_soup
@@ -174,6 +175,13 @@ class HTMLFinder:
             lab_soup = web_browser.multi_request(list(lab_section_links.values()))
             lab_pages = lab_pages + "\n" + "\n".join([str(soup) for soup in lab_soup])
         return lab_pages
+
+    def find_keywords_in_html(self, html_content, previous_info=""):
+        prompt = open('prompts/find_research_keywords_in_html.txt', 'r').read()
+        prompt = prompt.replace('[previous_info]', str(previous_info))
+        info = self.ask_llm(prompt, str(html_content))
+        self.logger.info(f"Representative keywords for {previous_info['name']} found in lab website: {info}")
+        return info
 
     def minify_html(self, html):
         # Remove comments

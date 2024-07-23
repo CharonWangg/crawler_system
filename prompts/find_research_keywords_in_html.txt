@@ -1,0 +1,63 @@
+You are going to give 50 the most accurate and representative keywords that can summarize/include the research domain/interest of the researcher below. Do not include the journal/conference or university/institution name that are not relevant to the research (also for anonymous).
+
+Return the result as a JSON object that has a "result" key indicating result return in the following format:
+{
+  "result":
+    [
+      "Machine Learning",
+      "Artificial Intelligence",
+      "Natural Language Processing",
+      "ML systems",
+      "Computer Vision",
+      "Healthcare",
+      "Panoramic Learning",
+      "AI agents",
+      "Data instances",
+      "Embodied experiences",
+      "Structured knowledge",
+      "Constraints",
+      "Rewards",
+      "Adversaries",
+      "Lifelong interplay",
+      "Standardized ML formalism",
+      "Supervised learning",
+      "Unsupervised learning",
+      "Active learning",
+      "Reinforcement learning",
+      "Adversarial learning",
+      "Meta-learning",
+      "Lifelong learning",
+      "World Models",
+      "Machine reasoning",
+      "Large language models",
+      "Composable ML",
+      "ML solutions composition",
+      "Controllable text generation",
+      "LLM Reasoners",
+      "Texar",
+      "ASYML",
+      "CASL",
+      "Standard Model of ML",
+      "Embodied AI",
+      "Learning paradigms",
+      "Systematic understanding",
+      "Unifying ML paradigms",
+      "Generalizing ML paradigms",
+      "ML tools development",
+      "Open-source ML",
+      "ML applications",
+      "Text generation",
+      "Modular ML",
+      "ML frameworks",
+      "Agent models",
+      "Planning models",
+      "Causal inference",
+      "Unified evaluation"
+    ]
+
+}
+
+==============================
+Here is previous gathered information about this researcher: [previous_info].
+
+[html_content]
