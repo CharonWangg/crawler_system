@@ -33,31 +33,35 @@ def configure_logging(department):
 
 def name_in_column(df, name, ignore_middle_name=True):
     # Normalize the names in the DataFrame and the input name
-    df['normalized_name'] = df['name'].str.lower()
-    name = name.lower()
+    try:
+        df['normalized_name'] = df['name'].str.lower()
+        name = name.lower()
 
-    def normalize_name(n):
-        n = n.replace(',', '').strip()
-        parts = n.split()
-        return ' '.join(parts[:2])
+        def normalize_name(n):
+            n = n.replace(',', '').strip()
+            parts = n.split()
+            return ' '.join(parts[:2])
 
-    def name_variants(n):
-        parts = n.split()
-        if len(parts) < 2:
-            return [n]
-        first_last = ' '.join(parts[:2])
-        last_first = ' '.join(parts[::-1][:2])
-        return [first_last, last_first]
+        def name_variants(n):
+            parts = n.split()
+            if len(parts) < 2:
+                return [n]
+            first_last = ' '.join(parts[:2])
+            last_first = ' '.join(parts[::-1][:2])
+            return [first_last, last_first]
 
-    if ignore_middle_name:
-        # Normalize names and create variants
-        df['first_last_variants'] = df['normalized_name'].apply(lambda x: name_variants(normalize_name(x)))
-        input_variants = name_variants(normalize_name(name))
+        if ignore_middle_name:
+            # Normalize names and create variants
+            df['first_last_variants'] = df['normalized_name'].apply(lambda x: name_variants(normalize_name(x)))
+            input_variants = name_variants(normalize_name(name))
 
-        # Check if any variant matches
-        return any(variant in df['first_last_variants'].explode().values for variant in input_variants)
-    else:
-        return name in df['normalized_name'].values
+            # Check if any variant matches
+            return any(variant in df['first_last_variants'].explode().values for variant in input_variants)
+        else:
+            return name in df['normalized_name'].values
+    except KeyError as e:
+        return False
+
 
 def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir):
     if name_in_column(df.copy(), entry['name']):
