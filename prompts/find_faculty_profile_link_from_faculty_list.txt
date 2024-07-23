@@ -1,11 +1,19 @@
-Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys: "name", "profile_address", "position", "department", "university", and "research domain". Ensure the following:
+Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys:
+
+"name"
+"profile_address" (complete URL of the profile page in the official department/university website)
+"position"
+"department"
+"university"
+
+Ensure the following:
 
 - The "profile_address" must be a complete URL. If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
 - If any information is missing for a key, include that key with an empty dictionary ({}) as its value.
 - Handle faculty with similar names carefully to avoid mixing profiles. Ensure strict matching based on the provided HTML content.
 - Do not omit any faculty member listed in the HTML content who has a profile address.
 
-For incomplete URLs, concatenate the base URL with the relative path. For example, if the base URL is "https://www.university.com" and the relative path is "/faculty/john-doe", the complete URL should be "https://www.university.com/faculty/john-doe".
+For incomplete URLs, concatenate the base URL with the relative path. For example, for the profile address, if the base URL is "https://www.university.com" and the relative path is "/faculty/john-doe", the complete URL should be "https://www.university.com/faculty/john-doe".
 
 If certain information is not available, represent it as follows:
 {

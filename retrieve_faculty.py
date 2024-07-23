@@ -79,9 +79,10 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
     # Browse personal page gathered from faculty page and google to find more information
     search_query = f"{entry['university']} {entry['name']} lab website"
 
-    google_prompt = (f"Here is the relevant url gathered before {entry['website']}, "
-                     f"include it if you find it align with your your search result analysis. "
-                     f"Do not include these URLs in the result:\n{entry['profile_address']}\n")
+    google_prompt = (f"Here is the previous gathered information: {entry}, "
+                     f"include the previous 'website' in the return if you find it align with "
+                     f"your search result analysis. Do not include the previous 'profile address' "
+                     f"in the return.")
     personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query,
                                                                   previous_info=google_prompt)
     personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup, previous_info=entry)

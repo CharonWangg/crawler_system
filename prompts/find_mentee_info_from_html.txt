@@ -8,7 +8,7 @@ Extract the requested information of the web page owner from the provided HTML c
 "description" (a summarization of research direction)
 "email" (convert to standard format)
 "avatar" (complete URL of image/avatar)
-"website" (complete URL of lab/personal website)
+"website" (complete URL of lab/personal website, lab website is better than personal website)
 "mentor" (dictionary of names and personal website links)
 
 If any information is missing, include the key with an empty dictionary ({}). If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url]. The mentor should at least include the provided primary mentor names and their personal website links, please add other mentors if you find more in the HTML content.

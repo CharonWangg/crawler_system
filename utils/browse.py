@@ -50,6 +50,14 @@ class WebBrowser:
         service = Service('/opt/homebrew/bin/chromedriver')  # Replace with your actual chromedriver path
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
+    def wait_for_page_load(self, timeout=30):
+        end_time = time.time() + timeout
+        while time.time() < end_time:
+            if self.driver.execute_script("return document.readyState") == "complete":
+                return True
+            time.sleep(0.5)
+        return False
+
     def quit(self):
         try:
             self.driver.close()
@@ -57,12 +65,19 @@ class WebBrowser:
         except Exception as e:
             print(f"An error occurred inside quit_browser: {e}")
 
-    def browse(self, url):
+    def browse(self, url, human_browse=True):
         # browse a website. First request, if blocked use selenium
         try:
-            response = requests.get(url)
-            response.raise_for_status()
-            return BeautifulSoup(response.content, 'html.parser')
+            if human_browse:
+                self.driver.get(url)
+                if self.wait_for_page_load():
+                    return BeautifulSoup(self.driver.page_source, 'html.parser')
+                else:
+                    print(f"An error occurred inside human_browse: {url} is not valid")
+            else:
+                response = requests.get(url)
+                response.raise_for_status()
+                return BeautifulSoup(response.content, 'html.parser')
         except Exception as e:
             try:
                 self.driver.get(url)

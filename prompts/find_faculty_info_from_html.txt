@@ -8,7 +8,7 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "description" (a summarization of research direction)
 "email" (convert to standard format)
 "avatar" (complete URL of image/avatar)
-"website" (complete URL of lab/personal website, lab/personal website is better than the school/department website)
+"website" (complete URL of lab/personal website, must be different from the "profile_address" in previous gathered information)
 "grad students" (dictionary of names and personal website links)
 "postdocs" (dictionary of names and personal website links)
 
@@ -24,10 +24,10 @@ Return the result as a JSON object that has a "result" key indicating result ret
     "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
     "description": "Dr. Jeff's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies like Next-Generation Sequencing and CRISPR-Cas9. He aims to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
     "email": "jeff@ucsd.edu",
-    "avatar": "www.jeffavatar.com",
+    "avatar": "www.jeff.com/avatar.jpg",
     "website": "www.jeff.com",
     "grad students": {
-      "Jack": "www.jack.com",
+      "Jack": "www.jacklab.com",
       "Peter": "peter.github.io"
     },
     "postdocs": {
