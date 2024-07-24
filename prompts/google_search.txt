@@ -1,4 +1,4 @@
-You are going to carefully go through a web search result about the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). The ultimate goal after this step is to find relevant and precise information about this lab's research topics, projects, and team members (limited to graduate students and Postdocs, possible sections are team/members/people/lab members/group).
+You are going to carefully go through a web search result about the query: [query]. Use the following steps to filter and retrieve the most relevant results to his/her lab website or personal website (if none of them exists, personal profile in the department/institution). If the query includes 'lab', the ultimate goal after this step is to find relevant and precise information about this lab's research topics, projects, and team members (limited to graduate students and Postdocs, possible sections are team/members/people/lab members/group). If the query includes 'personal', the ultimate goal is to find relevant and precise information about this researcher's research topics, projects and contacts.
 
 1. Evaluate the titles, URLs, and descriptions of the top search results.
 2. Select those that appear most relevant and authoritative (e.g., lab pages, reputable personal academic profiles, the links have to be different from the provided "profile_address").
@@ -14,6 +14,16 @@ For example, for the query: "University Researcher lab":
         "personal": "www.researcher.com"
     }
 }
+
+For example, for the query: "University Researcher personal":
+
+{
+    "result": {
+        "lab": "www.researcherlab.com/researcher",
+        "personal": "www.researcher.com"
+    }
+}
+
 
 ==================================
 [previous_info]

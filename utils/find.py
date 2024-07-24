@@ -159,6 +159,10 @@ class HTMLFinder:
 
     def find_relevant_content_from_google(self, web_browser, query, previous_info=""):
         search_html = BeautifulSoup(web_browser.google_search(query), 'html.parser')
+        # check if google blocks us
+        if "solving the above CAPTCHA" in search_html.text:
+            self.logger.error("Google blocked us, please use proxy to search")
+            return ""
         google_links = self.find_relevant_links_in_google_html(search_html, query, previous_info)
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))

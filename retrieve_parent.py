@@ -63,11 +63,11 @@ def name_in_column(df, name, ignore_middle_name=True):
         return False
 
 
-def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, parent_type='faculty'):
+def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, proxy=False, parent_type='faculty'):
     if name_in_column(df.copy(), entry['name']):
         logger.info(f"Profile for {entry['name']} already exists, skipping")
         return entry, df
-    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
+    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'], proxy=proxy)
     html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
@@ -83,7 +83,10 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
     logger.info(f"Info after gathering from official profile: {entry}")
 
     # Browse personal page gathered from faculty page and google to find more information
-    search_query = f"{entry['university']} {entry['name']} website"
+    if parent_type == 'mentee':
+        search_query = f"{entry['university']} {entry['name']} personal website"
+    elif parent_type == 'faculty':
+        search_query = f"{entry['university']} {entry['name']} lab"
 
     google_prompt = (f"Here is the previous gathered information: {entry}, "
                      f"include the previous 'website' in the return if you find it align with "
@@ -130,6 +133,7 @@ if __name__ == '__main__':
     parser.add_argument('--department', type=str, default='jacob')
     parser.add_argument('--parent_type', type=str, default='faculty')
     parser.add_argument('--num_processes', type=int, default=4)
+    parser.add_argument('--proxy', type=bool, default=False)
     args = parser.parse_args()
 
     if os.environ.get('API_KEY') is None:
@@ -150,7 +154,7 @@ if __name__ == '__main__':
     profile_base_url = cfg['profile_base_url']
 
     logger.info(f"Starting to fetch {parent_type} profiles")
-    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
+    web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'], proxy=args.proxy)
     if os.path.exists(os.path.join(data_dir, f'{parent_type}_profiles.html')):
         with open(os.path.join(data_dir, f'{parent_type}_profiles.html'), 'r', encoding='utf-8') as f:
             soup = f.read()
@@ -186,6 +190,6 @@ if __name__ == '__main__':
 
     # Process the faculty entries
     for entry in tqdm(faculty_entries, desc=f'Processing {parent_type} profiles'):
-        new_entry, df = fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, parent_type)
+        new_entry, df = fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, args.proxy, parent_type)
 
     logger.info('All profiles have been processed and saved.')

@@ -95,4 +95,27 @@ mentee:
         profile_base_url: https://datascience.ucsd.edu/people/
         data_dir: data/ucsd/hdsi
 
+    tilos:
+        base_url: https://tilos.ai/students/
+        profile_base_url: https://tilos.ai/students/
+        data_dir: data/ucsd/tilos
 
+    math:
+        base_url: https://math.ucsd.edu/people/graduate-students
+        profile_base_url: https://math.ucsd.edu/people/graduate-students
+        data_dir: data/ucsd/math
+
+    sociology:
+        base_url: https://sociology.ucsd.edu/people/graduate-students/index.html
+        profile_base_url: https://sociology.ucsd.edu/people/graduate-students
+        data_dir: data/ucsd/sociology
+
+    politics:
+        base_url: https://polisci.ucsd.edu/grad/current-students/index.html
+        profile_base_url: https://polisci.ucsd.edu/grad/current-students/index.html
+        data_dir: data/ucsd/politics
+
+    physics:
+        base_url: https://physics.ucsd.edu/people/graduate-students
+        profile_base_url: https://physics.ucsd.edu/people/profile?id=ealexeev
+        data_dir: data/ucsd/physics/

@@ -95,13 +95,13 @@ class WebBrowser:
                 responses.append(response)
         return responses
 
-    def google_search(self, query):
+    def google_search(self, query, human_browse=True):
         if self.proxy:
             # Use Zyte API to get rotated proxies
             search_url = f"https://www.google.com/search?q={query}"
             api_response = requests.post(
                 "https://api.zyte.com/v1/extract",
-                auth=("PROXY_API_KEY_HERE", ""),
+                auth=("YOUR API KEY HERE", ""),
                 json={
                     "url": search_url,
                     "httpResponseBody": True,
@@ -110,17 +110,34 @@ class WebBrowser:
             response = b64decode(
                 api_response.json()["httpResponseBody"])
         else:
-            try:
+            if not human_browse:
                 response = requests.get(url)
                 response.raise_for_status()
                 return BeautifulSoup(response.content, 'html.parser')
-            except Exception as e:
+            else:
                 self.driver.get("https://www.google.com")
                 q = self.driver.find_element(By.NAME, 'q')
                 q.send_keys(query)
                 q.submit()
                 response = self.driver.page_source
         return response
+
+    def select_option(self):
+        wait = WebDriverWait(self.driver, 10)
+        mat_select = wait.until(EC.element_to_be_clickable((By.ID, "mat-select-2")))
+
+        # Click the mat-select element to open the dropdown
+        mat_select.click()
+
+        # Wait for the dropdown options to be visible
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "mat-option")))
+
+        # Select the desired option (e.g., 50 items per page)
+        options = self.driver.find_elements(By.CSS_SELECTOR, "mat-option")
+        for option in options:
+            if option.text.strip() == "100":
+                option.click()
+                break
 
     def scroll_to_bottom(self, url):
         # URL of the main faculty profiles page
@@ -137,6 +154,9 @@ class WebBrowser:
                 print("Faculty elements not found within the given time frame or there is no hidden table.")
         else:
             print("Page did not load properly")
+
+        # Select the maximum option if existed
+        self.select_option()
 
         # Scroll down to load all dynamic content
         last_height = self.driver.execute_script("return document.body.scrollHeight")
