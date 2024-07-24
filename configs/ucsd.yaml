@@ -75,7 +75,24 @@ faculty:
         data_dir: data/ucsd/medicine
 
 mentee:
+    economics:
+        base_url: https://economics.ucsd.edu/graduate-program/current-students/grad-profiles.html
+        profile_base_url: https://economics.ucsd.edu/graduate-program
+        data_dir: data/ucsd/economics
+
+    biology:
+        base_url: https://biology.ucsd.edu/education/grad/phd/student-directory/index
+        profile_base_url: https://biology.ucsd.edu
+        data_dir: data/ucsd/biology
+
+    psychology:
+        base_url: https://psychology.ucsd.edu/people/graduate-students.html
+        profile_base_url: https://psychology.ucsd.edu/people
+        data_dir: data/ucsd/psychology
+
     hdsi:
         base_url: https://datascience.ucsd.edu/graduate/phd-program/phd-students/
         profile_base_url: https://datascience.ucsd.edu/people/
         data_dir: data/ucsd/hdsi
+
+
