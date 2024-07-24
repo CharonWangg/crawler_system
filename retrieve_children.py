@@ -11,7 +11,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 import ast
-from retrieve_faculty import name_in_column, configure_logging
+from retrieve_parent import name_in_column, configure_logging
 
 
 def df_to_mentee_list(df):
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     if os.environ.get('API_KEY') is None:
         raise ValueError("API_KEY is not set")
 
-    cfg = yaml.safe_load(open(args.config, 'r'))
+    cfg = yaml.safe_load(open(args.config, 'r'))['faculty']
     crawler_cfg = yaml.safe_load(open('configs/crawler.yaml', 'r'))
     api_key = os.environ.get('API_KEY')
 

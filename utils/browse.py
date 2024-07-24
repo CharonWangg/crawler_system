@@ -128,12 +128,15 @@ class WebBrowser:
 
         # Hard-coding this part is too limited, use a LLM to analyze what should be done next to get the full page
         # For example, when there is a 'table-responsive, LLM should use corresponding wait functions in selenium
-        try:
-            wait = WebDriverWait(self.driver, 5)
-            wait.until(EC.presence_of_all_elements_located((By.XPATH, '//*[@id="faculty"]')))
-        except TimeoutException:
-            # Handle the case where the faculty elements are not found
-            print("Faculty elements not found within the given time frame or there is no hidden table.")
+        if self.wait_for_page_load():
+            try:
+                wait = WebDriverWait(self.driver, 5)
+                wait.until(EC.presence_of_all_elements_located((By.XPATH, '//*[@id="faculty"]')))
+            except TimeoutException:
+                # Handle the case where the faculty elements are not found
+                print("Faculty elements not found within the given time frame or there is no hidden table.")
+        else:
+            print("Page did not load properly")
 
         # Scroll down to load all dynamic content
         last_height = self.driver.execute_script("return document.body.scrollHeight")

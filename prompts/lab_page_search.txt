@@ -10,8 +10,8 @@ Return the result as a JSON object that has a "result" key indicating result ret
 
 {
     "result": {
-        "research": "https://www.jefflab.com/research",
-        "team": "https://www.jefflab.com/team"
+        "research": "https://www.researcherlab.com/research",
+        "team": "https://www.researcherlab.com/team"
     }
 }
 

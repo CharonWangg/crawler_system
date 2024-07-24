@@ -6,12 +6,12 @@ You are going to carefully go through a web search result about the query: [quer
 4. If you cannot find relevant/matching content for specific keys, return {}.
 5. Return the result as a JSON object. Return the information in the following format. The "result" key indicating result return:
 
-For example, for the query: "UCSD Jeff lab":
+For example, for the query: "University Researcher lab":
 
 {
     "result": {
-        "lab": "www.jefflab.com",
-        "personal": "www.jeff.com"
+        "lab": "www.researcherlab.com",
+        "personal": "www.researcher.com"
     }
 }
 

@@ -114,17 +114,16 @@ class HTMLFinder:
 
         profiles = retrieve_profile(html_content)
 
-        # if len(str(html_content)) > self.token_limit_per_minute:
-        #     html_chunks = self.chunk_html(html_content)
-        #     profiles = []
-        #     for i, chunk in enumerate(tqdm(html_chunks, desc="Processing chunks")):
-        #     # for i, chunk in enumerate(html_chunks):
-        #         profiles.extend(retrieve_profile(chunk))
-        #         # uncomment when rate_limit_exceeded
-        #         # if i != len(html_chunks) - 1:
-        #         #     time.sleep(self.sleep_time)  # Sleep to avoid rate limits
-        # else:
-        #     profiles = retrieve_profile(html_content)
+        return profiles
+
+    def find_profile_from_student_list(self, html_content, profile_base_url):
+        def retrieve_profile(prompt):
+            prompt = open('prompts/find_mentee_profile_link_from_mentee_list.txt', 'r').read()
+            prompt = prompt.replace('[profile_base_url]', profile_base_url)
+            profile = self.ask_llm(prompt, str(html_content), substitute=False)
+            return profile
+
+        profiles = retrieve_profile(html_content)
 
         return profiles
 

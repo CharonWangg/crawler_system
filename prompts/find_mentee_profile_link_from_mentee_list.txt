@@ -1,4 +1,4 @@
-Extract all faculty profile addresses from the provided HTML content. Each faculty profile should be represented as a dictionary with the following keys:
+Extract all graduate students/postdocs profile addresses from the provided HTML content. Each profile should be represented as a dictionary with the following keys:
 
 "name"
 "profile_address" (complete URL of the profile page in the official department/university website)
@@ -13,9 +13,10 @@ Ensure the following:
 - Handle faculty with similar names carefully to avoid mixing profiles. Ensure strict matching based on the provided HTML content.
 - Do not omit any faculty member listed in the HTML content who has a profile address.
 
-For incomplete URLs, concatenate the base URL with the relative path. For example, for the profile address, if the base URL is "https://www.example_university.com" and the relative path is "/faculty/researcher-name", the complete URL should be "https://www.example_university.com/faculty/researcher-name".
+For incomplete URLs, concatenate the base URL with the relative path. For example, for the profile address, if the base URL is "https://www.example_university.com" and the relative path is "/phd/john-doe", the complete URL should be "https://www.example_university.com/phd/john-doe".
 
 If certain information is not available, represent it as follows:
+
 {
   "name": "Researcher Name",
   "profile_address": {},
@@ -26,16 +27,15 @@ If certain information is not available, represent it as follows:
 }
 
 Return the result as a JSON object that has a "result" key indicating result return in the following format:
-
 {
   "result": [
     {
-      "name": "Researcher",
-      "profile_address": "https://www.example_university/researcher-profile",
+      "name": "Researcher Name",
+      "profile_address": "https://www.example_university/path/researcher-profile",
       "position": "Position",
       "department": "Department",
       "university": "University",
-      "research domain": "Research Domain Keywords"
+      "research domain": "Research Keywords"
     },
     ...
   ]

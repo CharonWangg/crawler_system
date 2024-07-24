@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 import yaml
 import pandas as pd
 from utils.find import HTMLFinder
-from retrieve_faculty import configure_logging
+from retrieve_parent import configure_logging
 from tqdm import tqdm
 
 

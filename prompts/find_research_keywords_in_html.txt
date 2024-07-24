@@ -1,63 +1,67 @@
-You are going to give 50 the most accurate and representative keywords that can summarize/include the research domain/interest of the researcher below. Do not include the journal/conference or university/institution name that are not relevant to the research (also for anonymous).
+You are going to give 50 of the most accurate and representative keywords that can summarize/include the research domain/interest of the researcher below. Each keyword should be followed by a short description/explanation of what it entails. Do not include the journal/conference or university/institution names that are not relevant to the research (also for anonymity).
 
 Return the result as a JSON object that has a "result" key indicating result return in the following format:
+
 {
   "result":
     [
-      "Machine Learning",
-      "Artificial Intelligence",
-      "Natural Language Processing",
-      "ML systems",
-      "Computer Vision",
-      "Healthcare",
-      "Panoramic Learning",
-      "AI agents",
-      "Data instances",
-      "Embodied experiences",
-      "Structured knowledge",
-      "Constraints",
-      "Rewards",
-      "Adversaries",
-      "Lifelong interplay",
-      "Standardized ML formalism",
-      "Supervised learning",
-      "Unsupervised learning",
-      "Active learning",
-      "Reinforcement learning",
-      "Adversarial learning",
-      "Meta-learning",
-      "Lifelong learning",
-      "World Models",
-      "Machine reasoning",
-      "Large language models",
-      "Composable ML",
-      "ML solutions composition",
-      "Controllable text generation",
-      "LLM Reasoners",
-      "Texar",
-      "ASYML",
-      "CASL",
-      "Standard Model of ML",
-      "Embodied AI",
-      "Learning paradigms",
-      "Systematic understanding",
-      "Unifying ML paradigms",
-      "Generalizing ML paradigms",
-      "ML tools development",
-      "Open-source ML",
-      "ML applications",
-      "Text generation",
-      "Modular ML",
-      "ML frameworks",
-      "Agent models",
-      "Planning models",
-      "Causal inference",
-      "Unified evaluation"
+      {"keyword": "Machine Learning", "description": "A field of study that enables computers to learn from data."},
+      {"keyword": "Artificial Intelligence", "description": "The simulation of human intelligence in machines."},
+      {"keyword": "Natural Language Processing", "description": "AI that enables computers to understand and interpret human language."},
+      {"keyword": "ML systems", "description": "Systems that use machine learning algorithms."},
+      {"keyword": "Computer Vision", "description": "AI that trains computers to interpret and understand visual data."},
+      {"keyword": "Healthcare", "description": "The improvement of physical and mental health through medical services."},
+      {"keyword": "Panoramic Learning", "description": "A comprehensive approach to learning involving multiple perspectives."},
+      {"keyword": "AI agents", "description": "Autonomous software entities that use AI to perform tasks."},
+      {"keyword": "Data instances", "description": "Individual pieces of data used in machine learning."},
+      {"keyword": "Embodied experiences", "description": "Experiences involving physical interaction with the environment."},
+      {"keyword": "Structured knowledge", "description": "Information organized for easy understanding by machines."},
+      {"keyword": "Constraints", "description": "Limitations or restrictions in a system or process."},
+      {"keyword": "Rewards", "description": "Feedback given to an agent in reinforcement learning to guide behavior."},
+      {"keyword": "Adversaries", "description": "Entities or forces that oppose or challenge."},
+      {"keyword": "Lifelong interplay", "description": "Continuous interaction over a lifetime."},
+      {"keyword": "Standardized ML formalism", "description": "A consistent framework for developing machine learning models."},
+      {"keyword": "Supervised learning", "description": "Machine learning using labeled data."},
+      {"keyword": "Unsupervised learning", "description": "Machine learning using unlabeled data."},
+      {"keyword": "Active learning", "description": "An approach where the algorithm selects the data it learns from."},
+      {"keyword": "Reinforcement learning", "description": "Learning through interaction with an environment."},
+      {"keyword": "Adversarial learning", "description": "Training models by making them compete against each other."},
+      {"keyword": "Meta-learning", "description": "Algorithms that learn how to learn new tasks."},
+      {"keyword": "Lifelong learning", "description": "Continuous learning over an individual's life."},
+      {"keyword": "World Models", "description": "Models representing the dynamics of an environment."},
+      {"keyword": "Machine reasoning", "description": "AI's ability to reason and make decisions."},
+      {"keyword": "Large language models", "description": "Deep learning models trained on extensive text data."},
+      {"keyword": "Composable ML", "description": "Machine learning systems composed of different modules."},
+      {"keyword": "ML solutions composition", "description": "Combining multiple ML techniques to solve a problem."},
+      {"keyword": "Controllable text generation", "description": "Generating text under specific controls or guidelines."},
+      {"keyword": "LLM Reasoners", "description": "Large Language Models used for reasoning tasks."},
+      {"keyword": "Texar", "description": "A toolkit for text generation and analysis."},
+      {"keyword": "ASYML", "description": "A framework for creating asynchronous ML models."},
+      {"keyword": "CASL", "description": "A framework for collaborative ML."},
+      {"keyword": "Standard Model of ML", "description": "A comprehensive framework unifying various ML paradigms."},
+      {"keyword": "Embodied AI", "description": "AI systems that interact with the physical world."},
+      {"keyword": "Learning paradigms", "description": "Different approaches to learning."},
+      {"keyword": "Systematic understanding", "description": "A thorough comprehension of a system."},
+      {"keyword": "Unifying ML paradigms", "description": "Bringing together different ML approaches."},
+      {"keyword": "Generalizing ML paradigms", "description": "Extending ML approaches to new tasks and domains."},
+      {"keyword": "ML tools development", "description": "Creating tools to facilitate ML research and application."},
+      {"keyword": "Open-source ML", "description": "ML projects and tools that are freely available to the public."},
+      {"keyword": "ML applications", "description": "Practical uses of machine learning in various fields."},
+      {"keyword": "Text generation", "description": "Generating human-like text using AI."},
+      {"keyword": "Modular ML", "description": "ML systems designed with interchangeable modules."},
+      {"keyword": "ML frameworks", "description": "Structured environments for developing ML models."},
+      {"keyword": "Agent models", "description": "Models representing autonomous agents in AI."},
+      {"keyword": "Planning models", "description": "Models used to plan actions and strategies."},
+      {"keyword": "Causal inference", "description": "Determining cause-and-effect relationships in data."},
+      {"keyword": "Unified evaluation", "description": "A consistent method for assessing ML models."}
     ]
-
 }
+
 
 ==============================
 Here is previous gathered information about this researcher: [previous_info].
 
 [html_content]
+
+
+

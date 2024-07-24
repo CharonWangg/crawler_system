@@ -17,34 +17,35 @@ If any information is missing, include the key with an empty dictionary ({}). If
 Return the result as a JSON object that has a "result" key indicating result return in the following format:
 {
   "result": {
-    "name": "Jeff",
-    "position": "Assistant Professor",
-    "department": "Biology",
-    "university": "UCSD",
-    "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
-    "description": "Dr. Jeff's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies like Next-Generation Sequencing and CRISPR-Cas9. He aims to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
-    "email": "jeff@ucsd.edu",
-    "avatar": "www.jeff.com/avatar.jpg",
-    "website": "www.jeff.com",
+    "name": "Researcher",
+    "position": "Position",
+    "department": "Department",
+    "university": "University",
+    "research domain": "Research Domain Keywords",
+    "description": "Researcher's research focuses on identifying genetic variants, profiling gene expression, and investigating functional genomics using cutting-edge technologies. The aim is to advance medical genomics for personalized medicine, enhance agricultural biotechnology, and deepen our understanding of evolutionary biology.",
+    "email": "researcher@university.edu",
+    "avatar": "www.researcher.com/avatar.jpg",
+    "website": "www.researcher.com",
     "grad students": {
-      "Jack": "www.jacklab.com",
-      "Peter": "peter.github.io"
+      "Student1": "www.student1lab.com",
+      "Student2": "student2.github.io"
     },
     "postdocs": {
-      "Jack2": "www.jack2.com",
-      "Peter2": "peter2.com"
+      "Postdoc1": "www.postdoc1.com",
+      "Postdoc2": "postdoc2.com"
     }
   }
 }
 
 If specific information is not found, use the following format:
+
 {
   "result": {
-    "name": "Jeff",
-    "position": "Assistant Professor",
-    "department": "Biology",
-    "university": "UCSD",
-    "research domain": "Gene analysis, Evolutionary biology, Personalized medicine, Agricultural biotechnology",
+    "name": "Researcher",
+    "position": "Position",
+    "department": "Department",
+    "university": "University of Nowhere",
+    "research domain": "Research Domain Keywords",
     "description": {},
     "email": {},
     "avatar": {},
@@ -53,6 +54,7 @@ If specific information is not found, use the following format:
     "postdocs": {}
   }
 }
+
 ==============================
 Here is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this HTML content less informative and useful than the previous value, please adopt the previous value for that specific content.
 

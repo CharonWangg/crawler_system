@@ -63,7 +63,7 @@ def name_in_column(df, name, ignore_middle_name=True):
         return False
 
 
-def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir):
+def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, parent_type='faculty'):
     if name_in_column(df.copy(), entry['name']):
         logger.info(f"Profile for {entry['name']} already exists, skipping")
         return entry, df
@@ -73,11 +73,17 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
 
     logger.info(f"Fetching profile for {entry['name']}")
     official_soup = web_browser.browse(entry["profile_address"], human_browse=True)
-    entry.update(html_finder.find_faculty_info_in_html(official_soup, previous_info=entry))
+    if parent_type == 'mentee':
+        entry.update(html_finder.find_mentee_info_in_html(official_soup, previous_info=entry))
+    elif parent_type == 'faculty':
+        entry.update(html_finder.find_faculty_info_in_html(official_soup, previous_info=entry))
+    else:
+        raise ValueError(f"Invalid mentor type: {parent_type}")
+    
     logger.info(f"Info after gathering from official profile: {entry}")
 
     # Browse personal page gathered from faculty page and google to find more information
-    search_query = f"{entry['university']} {entry['name']} lab website"
+    search_query = f"{entry['university']} {entry['name']} website"
 
     google_prompt = (f"Here is the previous gathered information: {entry}, "
                      f"include the previous 'website' in the return if you find it align with "
@@ -85,9 +91,14 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
                      f"in the return.")
     personal_soup = html_finder.find_relevant_content_from_google(web_browser, search_query,
                                                                   previous_info=google_prompt)
-    personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup, previous_info=entry)
 
-    entry.update(html_finder.find_faculty_info_in_html(personal_soup, previous_info=entry))
+    if parent_type == 'mentee':
+        entry.update(html_finder.find_mentee_info_in_html(personal_soup, previous_info=entry))
+    elif parent_type == 'faculty':
+        personal_soup = html_finder.find_relevant_content_from_lab(web_browser, personal_soup, previous_info=entry)
+        entry.update(html_finder.find_faculty_info_in_html(personal_soup, previous_info=entry))
+    else:
+        raise ValueError(f"Invalid mentor type: {parent_type}")
 
     logger.info(f"Info after gathering from personal profile: {entry}")
 
@@ -108,7 +119,7 @@ def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir
     # Update the DataFrame and save it
     df = pd.concat([df, pd.DataFrame([entry])], ignore_index=True)
     df.drop_duplicates(subset=['name'], keep='last', inplace=True)
-    df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
+    df.to_csv(os.path.join(data_dir, f'{parent_type}_profiles.csv'), index=False)
     logger.info(f"Saved profile for {entry['name']} to CSV")
 
     return entry, df
@@ -117,18 +128,20 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--config', type=str, default='configs/ucsd.yaml')
     parser.add_argument('--department', type=str, default='jacob')
+    parser.add_argument('--parent_type', type=str, default='faculty')
     parser.add_argument('--num_processes', type=int, default=4)
     args = parser.parse_args()
 
     if os.environ.get('API_KEY') is None:
         raise ValueError("API_KEY is not set")
 
-    cfg = yaml.safe_load(open(args.config, 'r'))[args.department]
+    parent_type = args.parent_type
+    cfg = yaml.safe_load(open(args.config, 'r'))[parent_type][args.department]
     crawler_cfg = yaml.safe_load(open('configs/crawler.yaml', 'r'))
     api_key = os.environ.get('API_KEY')
 
     # Initialization
-    logger = configure_logging(args.department)
+    logger = configure_logging(args.department, type=parent_type)
     data_dir = cfg['data_dir']
     profile_dir = os.path.join(data_dir, 'profiles')
     os.makedirs(data_dir, exist_ok=True)
@@ -136,38 +149,43 @@ if __name__ == '__main__':
     base_url = cfg['base_url']
     profile_base_url = cfg['profile_base_url']
 
-    logger.info("Starting to fetch faculty profiles")
+    logger.info(f"Starting to fetch {parent_type} profiles")
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'])
-    if os.path.exists(os.path.join(data_dir, 'faculty_profiles.html')):
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'r', encoding='utf-8') as f:
+    if os.path.exists(os.path.join(data_dir, f'{parent_type}_profiles.html')):
+        with open(os.path.join(data_dir, f'{parent_type}_profiles.html'), 'r', encoding='utf-8') as f:
             soup = f.read()
     else:
         soup = web_browser.scroll_to_bottom(base_url)
-        with open(os.path.join(data_dir, 'faculty_profiles.html'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(data_dir, f'{parent_type}_profiles.html'), 'w', encoding='utf-8') as f:
             f.write(str(soup))
 
-    if os.path.exists(os.path.join(data_dir, 'faculty_entries.json')):
-        with open(os.path.join(data_dir, 'faculty_entries.json'), 'r') as f:
+    if os.path.exists(os.path.join(data_dir, f'{parent_type}_entries.json')):
+        with open(os.path.join(data_dir, f'{parent_type}_entries.json'), 'r') as f:
             faculty_entries = json.load(f)
     else:
         html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
                                  token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
-        faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
-        with open(os.path.join(data_dir, 'faculty_entries.json'), 'w') as f:
+        if parent_type == 'faculty':
+            faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
+        elif parent_type == 'mentee':
+            faculty_entries = html_finder.find_profile_from_student_list(soup, profile_base_url)
+        else:
+            raise ValueError(f"Invalid mentor type: {parent_type}")
+        with open(os.path.join(data_dir, f'{parent_type}_entries.json'), 'w') as f:
             json.dump(faculty_entries, f)
 
-    logger.info(f"Finished fetching faculty entries, in total {len(faculty_entries)} entries.")
+    logger.info(f"Finished fetching {parent_type} entries, in total {len(faculty_entries)} entries.")
     logger.info(str(faculty_entries))
 
     # Create an empty DataFrame or load existing data
-    csv_path = os.path.join(data_dir, 'faculty_profiles.csv')
+    csv_path = os.path.join(data_dir, f'{parent_type}_profiles.csv')
     if os.path.exists(csv_path):
         df = pd.read_csv(csv_path)
     else:
         df = pd.DataFrame()
 
     # Process the faculty entries
-    for entry in tqdm(faculty_entries, desc='Processing faculty profiles'):
-        new_entry, df = fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir)
+    for entry in tqdm(faculty_entries, desc=f'Processing {parent_type} profiles'):
+        new_entry, df = fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, parent_type)
 
     logger.info('All profiles have been processed and saved.')
