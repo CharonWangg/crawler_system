@@ -101,7 +101,7 @@ class WebBrowser:
             search_url = f"https://www.google.com/search?q={query}"
             api_response = requests.post(
                 "https://api.zyte.com/v1/extract",
-                auth=("YOUR API KEY HERE", ""),
+                auth=("d6e2548834c34ac68a369f4b4ec02aae", ""),
                 json={
                     "url": search_url,
                     "httpResponseBody": True,
@@ -156,7 +156,12 @@ class WebBrowser:
             print("Page did not load properly")
 
         # Select the maximum option if existed
-        self.select_option()
+        try:
+            # so far only biology has this option
+            self.select_option()
+        except Exception as e:
+            # ugly pass that should be replaced with proper error handling
+            pass
 
         # Scroll down to load all dynamic content
         last_height = self.driver.execute_script("return document.body.scrollHeight")

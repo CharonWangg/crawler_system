@@ -5,6 +5,7 @@ Extract all graduate students/postdocs profile addresses from the provided HTML 
 "position"
 "department"
 "university"
+"email"
 
 Ensure the following:
 
@@ -13,7 +14,7 @@ Ensure the following:
 - Handle faculty with similar names carefully to avoid mixing profiles. Ensure strict matching based on the provided HTML content.
 - Do not omit any faculty member listed in the HTML content who has a profile address.
 
-For incomplete URLs, concatenate the base URL with the relative path. For example, for the profile address, if the base URL is "https://www.example_university.com" and the relative path is "/phd/john-doe", the complete URL should be "https://www.example_university.com/phd/john-doe".
+For incomplete URLs, concatenate the base URL with the relative path. For example, for the profile address, if the base URL is "https://www.example_university.com" and the relative path is "/phd/researcher_name", the complete URL should be "https://www.example_university.com/phd/researcher_name".
 
 If certain information is not available, represent it as follows:
 
@@ -23,7 +24,8 @@ If certain information is not available, represent it as follows:
   "position": "Position",
   "department": "Department",
   "university": "University",
-  "research domain": {}
+  "research domain": {},
+  "email": {}
 }
 
 Return the result as a JSON object that has a "result" key indicating result return in the following format:
@@ -35,7 +37,8 @@ Return the result as a JSON object that has a "result" key indicating result ret
       "position": "Position",
       "department": "Department",
       "university": "University",
-      "research domain": "Research Keywords"
+      "research domain": "Research Keywords",
+      "email": "Email Address"
     },
     ...
   ]

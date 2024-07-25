@@ -152,6 +152,7 @@ if __name__ == '__main__':
     os.makedirs(profile_dir, exist_ok=True)
     base_url = cfg['base_url']
     profile_base_url = cfg['profile_base_url']
+    base_university, base_department = args.config.split('/')[-1].replace('.yaml', ''), args.department
 
     logger.info(f"Starting to fetch {parent_type} profiles")
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'], proxy=args.proxy)
@@ -175,6 +176,11 @@ if __name__ == '__main__':
             faculty_entries = html_finder.find_profile_from_student_list(soup, profile_base_url)
         else:
             raise ValueError(f"Invalid mentor type: {parent_type}")
+        # fill the department and university information if not provided to mitigate hallucination
+        for entry in faculty_entries:
+            entry['department'] = base_department
+            entry['university'] = base_university
+
         with open(os.path.join(data_dir, f'{parent_type}_entries.json'), 'w') as f:
             json.dump(faculty_entries, f)
 

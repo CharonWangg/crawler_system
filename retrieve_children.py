@@ -15,6 +15,7 @@ from retrieve_parent import name_in_column, configure_logging
 
 
 def df_to_mentee_list(df):
+    df = df.astype(str)
     df_dict = df.to_dict(orient='records')
     new_df_dict = []
     for entry in df_dict:
