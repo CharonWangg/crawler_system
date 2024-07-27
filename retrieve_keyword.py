@@ -35,23 +35,27 @@ def retrieve_profile_text(html, online=False):
 
 def process_profiles(df, profile_dir, html_finder, department, logger, entity_type):
     if 'keyword' not in df.columns:
-        df['keyword'] = "{}"
+        df['keyword'] = ""
     df['department'] = df['department'].apply(lambda x: department if x == "{}" else x)
 
     for i, row in tqdm(list(df.iterrows()), desc=f'Finding keywords for {entity_type} in {department}'):
-        if "[" in row['keyword'] and "]" in row['keyword']:
+        if "{" in row['keyword'] and "}" in row['keyword']:
             logger.info(f"Skipping {row['name']} as it already has keywords")
             continue
-        official_path = os.path.join(profile_dir, row['name'], 'official_profile.html')
-        personal_path = os.path.join(profile_dir, row['name'], 'personal_profile.html')
-        official_text = retrieve_profile_text(official_path)
-        try:
-            personal_text = retrieve_profile_text(personal_path)
-        except Exception as e:
-            logger.error(f"{row['name']} does not have a personal profile")
+        if not os.path.exists(os.path.join(profile_dir, row['name'], 'official_profile.html')):
+            logger.error(f"Official profile for {row['name']} does not exist")
+            official_text = ""
+        else:
+            official_path = os.path.join(profile_dir, row['name'], 'official_profile.html')
+            official_text = retrieve_profile_text(official_path)
+        if not os.path.exists(os.path.join(profile_dir, row['name'], 'personal_profile.html')):
+            logger.error(f"Personal profile for {row['name']} does not exist")
             personal_text = ""
+        else:
+            personal_path = os.path.join(profile_dir, row['name'], 'personal_profile.html')
+            personal_text = retrieve_profile_text(personal_path)
+
         # merge the two texts
-        prompt = open('prompts/find_research_keywords_in_html.txt', 'r').read()
         html_content = ("\nHere is the personal website of this researcher in the department/university website:\n"
                         "[official_html]\nHere is the lab/personal website of this researcher:\n[personal_html]\n")
         html_content = html_content.replace('[official_html]', official_text)
@@ -66,6 +70,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--config', type=str, default='configs/ucsd.yaml')
     parser.add_argument('--department', type=str, default='all')
+    parser.add_argument('--reset', type=bool, default=False)
     args = parser.parse_args()
 
     # Load the configuration
@@ -75,7 +80,7 @@ if __name__ == '__main__':
 
     # Initialization
     if args.department != 'all':
-        cfg = {args.department: cfg[args.department]}
+        cfg = {args.department: cfg['faculty'][args.department]}
     logger = configure_logging(args.department, type='keyword')
     html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
@@ -84,14 +89,24 @@ if __name__ == '__main__':
         try:
             data_dir = cfg[department]['data_dir']
             profile_dir = os.path.join(data_dir, 'profiles')
-            faculty_df = pd.read_csv(os.path.join(data_dir, 'faculty_profiles.csv'))
-            mentee_df = pd.read_csv(os.path.join(data_dir, 'mentee_profiles.csv'))
+            if not os.path.exists(os.path.join(data_dir, 'faculty_profiles.csv')):
+                logger.error('No faculty profiles found. Please run retrieve_parent --parent_type faculty.py first.')
+            else:
+                faculty_df = pd.read_csv(os.path.join(data_dir, 'faculty_profiles.csv'))
+                if args.reset:
+                    faculty_df['keyword'] = "{}"
+                faculty_df = process_profiles(faculty_df, profile_dir, html_finder, department, logger, 'faculty')
+                faculty_df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
 
-            faculty_df = process_profiles(faculty_df, profile_dir, html_finder, department, logger, 'faculty')
-            mentee_df = process_profiles(mentee_df, profile_dir, html_finder, department, logger, 'mentee')
+            if not os.path.exists(os.path.join(data_dir, 'mentee_profiles.csv')):
+                logger.error('No mentee profiles found. Please run retrieve_parent --parent_type mentee/retrieve_children.py first.')
+            else:
+                mentee_df = pd.read_csv(os.path.join(data_dir, 'mentee_profiles.csv'))
+                if args.reset:
+                    mentee_df['keyword'] = "{}"
+                mentee_df = process_profiles(mentee_df, profile_dir, html_finder, department, logger, 'mentee')
+                mentee_df.to_csv(os.path.join(data_dir, 'mentee_profiles.csv'), index=False)
 
-            faculty_df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
-            mentee_df.to_csv(os.path.join(data_dir, 'mentee_profiles.csv'), index=False)
         except Exception as e:
             logger.error(f"{e}, {department} might not be collected")
             continue

@@ -66,6 +66,7 @@ class WebBrowser:
             print(f"An error occurred inside quit_browser: {e}")
 
     def browse(self, url, human_browse=False):
+        if not url or url == "{}": return None
         # browse a website. First request, if blocked use selenium
         try:
             if human_browse:

@@ -46,3 +46,9 @@ Raw scraped personal and official information are stored in the `data/<universit
    ```
    python retrieve_keyword.py --department hdsi
    ```
+   
+## Experience
+Some findings in the prompt engineering:
+- Anonymous example is better than a real example
+- The prompt should be specific on the output form and format (str, dict, list, etc.)
+- Some preliminary information injected helps reduce the hallucination of the prompt.

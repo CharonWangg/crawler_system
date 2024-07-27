@@ -157,7 +157,7 @@ class HTMLFinder:
         self.logger.info(f"Relevant links found in lab website: {info}")
         return info
 
-    def find_relevant_content_from_google(self, web_browser, query, previous_info=""):
+    def find_relevant_content_from_google(self, web_browser, query, previous_info="", only_text=False):
         search_html = BeautifulSoup(web_browser.google_search(query), 'html.parser')
         # check if google blocks us
         if "solving the above CAPTCHA" in search_html.text:
@@ -167,16 +167,23 @@ class HTMLFinder:
         if google_links:
             personal_soup = web_browser.multi_request(list(google_links.values()))
             # only use the text part to exact content
-            personal_soup = "\n".join(
-                ['='*10 + f'\nThis {name} website link: {link}\n' + str(soup) for (name, link), soup in zip(google_links.items(), personal_soup)])
+            if only_text:
+                personal_soup = "\n".join(
+                ['='*10 + f'\nThis {name} website link: {link}\n' + self.clean_scraped_text(soup.text) for (name, link), soup in zip(google_links.items(), personal_soup)])
+            else:
+                personal_soup = "\n".join(
+                    ['='*10 + f'\nThis {name} website link: {link}\n' + str(soup) for (name, link), soup in zip(google_links.items(), personal_soup)])
             return personal_soup
         return ""
 
-    def find_relevant_content_from_lab(self, web_browser, lab_pages, previous_info=""):
+    def find_relevant_content_from_lab(self, web_browser, lab_pages, previous_info="", only_text=False):
         lab_section_links = self.find_relevant_links_in_lab_html(lab_pages, previous_info)
         if lab_section_links:
             lab_soup = web_browser.multi_request(list(lab_section_links.values()))
-            lab_pages = lab_pages + "\n" + "\n".join([str(soup) for soup in lab_soup])
+            if only_text:
+                lab_pages = lab_pages + "\n" + "\n".join([self.clean_scraped_text(soup.text) for soup in lab_soup])
+            else:
+                lab_pages = lab_pages + "\n" + "\n".join([str(soup) for soup in lab_soup])
         return lab_pages
 
     def find_keywords_in_html(self, html_content, previous_info=""):
@@ -240,3 +247,8 @@ class HTMLFinder:
         minified_html = re.sub(r'\s+', ' ', minified_html).strip()
 
         return minified_html
+
+    def clean_scraped_text(self, text):
+        text = re.sub(r'[^\S\r\n]+', ' ', text)
+        text = re.sub(r'[^a-zA-Z0-9,.!?;:\s]', '', text)
+        return text

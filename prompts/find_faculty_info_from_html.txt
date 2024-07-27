@@ -56,7 +56,7 @@ If specific information is not found, use the following format:
 }
 
 ==============================
-Here is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this HTML content less informative and useful than the previous value, please adopt the previous value for that specific content.
+Here is the previous gathered information: [previous_info], if you find a new information (e.g. research domain) exacted in this HTML content less informative and useful than the previous value, please adopt the previous value for that specific content. Stick with this specific researcher and don't get distracted by other researchers on the same page.
 
 Here is the HTML content:
 
