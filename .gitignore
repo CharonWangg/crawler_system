@@ -167,6 +167,10 @@ cython_debug/
 data/
 test/
 logs/
+profile_pictures/
 
 # ignore the media crawler folder
 MediaCrawler/
+
+# ignore the vs code settings
+.vscode/
