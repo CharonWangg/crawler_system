@@ -11,6 +11,7 @@ Extract faculty information from the provided HTML content. Each faculty profile
 "website" (complete URL of lab/personal website, must be different from the "profile_address" in previous gathered information)
 "grad students" (dictionary of names and personal website links)
 "postdocs" (dictionary of names and personal website links)
+"keyword" (a dictionary of 50 most accurate and representative keywords that can summarize/include the research domain/interest of this researcher. Each keyword should be followed by a empty string as the description/explanation placeholder Do not include the journal/conference or university/institution names that are not relevant to the research (also for anonymity))
 
 If any information is missing, include the key with an empty dictionary ({}). If the HTML contains a relative path, prepend it with the base URL provided as [profile_base_url].
 
@@ -33,7 +34,12 @@ Return the result as a JSON object that has a "result" key indicating result ret
     "postdocs": {
       "Postdoc1": "www.postdoc1.com",
       "Postdoc2": "postdoc2.com"
-    }
+    },
+    "keyword": {
+      "keyword1": "",
+      "keyword2": "",
+      ...
+      "keyword50": ""
   }
 }
 
@@ -51,7 +57,12 @@ If specific information is not found, use the following format:
     "avatar": {},
     "website": {},
     "grad students": {},
-    "postdocs": {}
+    "postdocs": {},
+    "keyword":  {"keyword1": "",
+     "keyword2": "",
+     ...
+     "keyword50": ""
+    }
   }
 }
 

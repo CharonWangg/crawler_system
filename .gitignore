@@ -168,4 +168,5 @@ data/
 test/
 logs/
 
-
+# ignore the media crawler folder
+MediaCrawler/

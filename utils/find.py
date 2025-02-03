@@ -11,21 +11,34 @@ class HTMLFinder:
     model_context_limit = {
         # 1:4 token/char ratio, use 1/4 of 128000 to have a large number of generated tokens
         "gpt-4o-mini": 128000,
-        "gpt-3.5-turbo": 40000
+        "deepseek-chat": 128000
+
     }
     model_token_limit = {
         "gpt-4o-mini": 2000000,
-        "gpt-3.5-turbo": 2000000
+        "deepseek-chat": 2000000
     }
-    def __init__(self, api_key, logger, model="gpt-4o-mini", token_limit_per_minute=None):
-        self.api_key = api_key
-        self.client = OpenAI(
-            api_key=api_key
-        )
-        self.model = model
-        self.context_length_limit = self.model_context_limit[model]
+    def __init__(self, logger, model, token_limit_per_minute=None):
+        try:
+            self.api_key = model['api_key']
+            if 'deepseek' in model['model']:
+                self.client = OpenAI(
+                    api_key=model['api_key'],
+                    base_url="https://api.deepseek.com",
+                )
+            else:
+                self.client = OpenAI(
+                    api_key=model['api_key']
+                )
+        except KeyError:
+            self.api_key = os.environ.get('API_KEY')
+            self.client = OpenAI(
+                api_key=self.api_key
+            )
+        self.model = model['model']
+        self.context_length_limit = self.model_context_limit[model['model']]
         if token_limit_per_minute is None:
-            self.token_limit_per_minute = self.model_token_limit[model]
+            self.token_limit_per_minute = self.model_token_limit[model['model']]
         else:
             self.token_limit_per_minute = token_limit_per_minute
         self.sleep_time = 60

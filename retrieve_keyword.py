@@ -39,7 +39,7 @@ def process_profiles(df, profile_dir, html_finder, department, logger, entity_ty
     df['department'] = df['department'].apply(lambda x: department if x == "{}" else x)
 
     for i, row in tqdm(list(df.iterrows()), desc=f'Finding keywords for {entity_type} in {department}'):
-        if "{" in row['keyword'] and "}" in row['keyword']:
+        if not isinstance(row['keyword'], float) and "{" in row['keyword'] and "}" in row['keyword']:
             logger.info(f"Skipping {row['name']} as it already has keywords")
             continue
         if not os.path.exists(os.path.join(profile_dir, row['name'], 'official_profile.html')):
@@ -76,37 +76,36 @@ if __name__ == '__main__':
     # Load the configuration
     cfg = yaml.safe_load(open(args.config, 'r'))
     crawler_cfg = yaml.safe_load(open('configs/crawler.yaml', 'r'))
-    api_key = os.environ.get('API_KEY')
 
     # Initialization
     if args.department != 'all':
         cfg = {args.department: cfg['faculty'][args.department]}
     logger = configure_logging(args.department, type='keyword')
-    html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
+    html_finder = HTMLFinder(logger=logger, model=crawler_cfg[crawler_cfg['model']],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     for department in cfg.keys():
-        try:
-            data_dir = cfg[department]['data_dir']
-            profile_dir = os.path.join(data_dir, 'profiles')
-            if not os.path.exists(os.path.join(data_dir, 'faculty_profiles.csv')):
-                logger.error('No faculty profiles found. Please run retrieve_parent --parent_type faculty.py first.')
-            else:
-                faculty_df = pd.read_csv(os.path.join(data_dir, 'faculty_profiles.csv'))
-                if args.reset:
-                    faculty_df['keyword'] = "{}"
-                faculty_df = process_profiles(faculty_df, profile_dir, html_finder, department, logger, 'faculty')
-                faculty_df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
+        # try:
+        data_dir = cfg[department]['data_dir']
+        profile_dir = os.path.join(data_dir, 'profiles')
+        if not os.path.exists(os.path.join(data_dir, 'faculty_profiles.csv')):
+            logger.error('No faculty profiles found. Please run retrieve_parent --parent_type faculty.py first.')
+        else:
+            faculty_df = pd.read_csv(os.path.join(data_dir, 'faculty_profiles.csv'))
+            if args.reset:
+                faculty_df['keyword'] = "{}"
+            faculty_df = process_profiles(faculty_df, profile_dir, html_finder, department, logger, 'faculty')
+            faculty_df.to_csv(os.path.join(data_dir, 'faculty_profiles.csv'), index=False)
 
-            if not os.path.exists(os.path.join(data_dir, 'mentee_profiles.csv')):
-                logger.error('No mentee profiles found. Please run retrieve_parent --parent_type mentee/retrieve_children.py first.')
-            else:
-                mentee_df = pd.read_csv(os.path.join(data_dir, 'mentee_profiles.csv'))
-                if args.reset:
-                    mentee_df['keyword'] = "{}"
-                mentee_df = process_profiles(mentee_df, profile_dir, html_finder, department, logger, 'mentee')
-                mentee_df.to_csv(os.path.join(data_dir, 'mentee_profiles.csv'), index=False)
+        if not os.path.exists(os.path.join(data_dir, 'mentee_profiles.csv')):
+            logger.error('No mentee profiles found. Please run retrieve_parent --parent_type mentee/retrieve_children.py first.')
+        else:
+            mentee_df = pd.read_csv(os.path.join(data_dir, 'mentee_profiles.csv'))
+            if args.reset:
+                mentee_df['keyword'] = "{}"
+            mentee_df = process_profiles(mentee_df, profile_dir, html_finder, department, logger, 'mentee')
+            mentee_df.to_csv(os.path.join(data_dir, 'mentee_profiles.csv'), index=False)
 
-        except Exception as e:
-            logger.error(f"{e}, {department} might not be collected")
-            continue
+        # except Exception as e:
+        #     logger.error(f"{e}, {department} might not be collected")
+        #     continue

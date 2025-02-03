@@ -1,0 +1,7 @@
+csrankings:
+  base_url: https://csrankings.org/#/index?all&us
+  data_dir: data/csrankings
+duooffer:
+  base_url: https://duooffer.github.io/
+  data_dir: data/duooffer
+  latest_date: '2024-10-14'

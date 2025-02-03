@@ -1,3 +1,11 @@
-model: gpt-4o-mini
+model: gpt
 sleep_time: 0.5
 token_limit_per_minute: 600000
+
+gpt:
+  model: gpt-4o-mini
+  api_key: sk-proj-6rvfSXtLExrAE49KAAGKT3BlbkFJX1NsO9lbdha8ovN95eS3
+
+deepseek:
+  model: deepseek-chat
+  api_key: sk-30b9c95e48c848a49c576c6f7116005c

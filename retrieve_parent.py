@@ -63,12 +63,12 @@ def name_in_column(df, name, ignore_middle_name=True):
         return False
 
 
-def fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, proxy=False, parent_type='faculty'):
+def fetch_profile(entry, crawler_cfg, profile_dir, logger, df, data_dir, proxy=False, parent_type='faculty'):
     if name_in_column(df.copy(), entry['name']):
         logger.info(f"Profile for {entry['name']} already exists, skipping")
         return entry, df
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'], proxy=proxy)
-    html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
+    html_finder = HTMLFinder(logger=logger, model=crawler_cfg[crawler_cfg['model']],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
 
     logger.info(f"Fetching profile for {entry['name']}")
@@ -142,7 +142,6 @@ if __name__ == '__main__':
     parent_type = args.parent_type
     cfg = yaml.safe_load(open(args.config, 'r'))[parent_type][args.department]
     crawler_cfg = yaml.safe_load(open('configs/crawler.yaml', 'r'))
-    api_key = os.environ.get('API_KEY')
 
     # Initialization
     logger = configure_logging(args.department, type=parent_type)
@@ -168,7 +167,7 @@ if __name__ == '__main__':
         with open(os.path.join(data_dir, f'{parent_type}_entries.json'), 'r') as f:
             faculty_entries = json.load(f)
     else:
-        html_finder = HTMLFinder(api_key=api_key, logger=logger, model=crawler_cfg['model'],
+        html_finder = HTMLFinder(logger=logger, model=crawler_cfg[crawler_cfg['model']],
                                  token_limit_per_minute=crawler_cfg['token_limit_per_minute'])
         if parent_type == 'faculty':
             faculty_entries = html_finder.find_profile_from_faculty_list(soup, profile_base_url)
@@ -196,6 +195,6 @@ if __name__ == '__main__':
 
     # Process the faculty entries
     for entry in tqdm(faculty_entries, desc=f'Processing {parent_type} profiles'):
-        new_entry, df = fetch_profile(entry, api_key, crawler_cfg, profile_dir, logger, df, data_dir, args.proxy, parent_type)
+        new_entry, df = fetch_profile(entry, crawler_cfg, profile_dir, logger, df, data_dir, args.proxy, parent_type)
 
     logger.info('All profiles have been processed and saved.')

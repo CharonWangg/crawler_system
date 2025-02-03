@@ -37,9 +37,9 @@ def df_to_mentee_list(df):
     return mentees
 
 
-def fetch_mentee_info(entry, api_key, crawler_cfg, df, proxy, logger):
+def fetch_mentee_info(entry, crawler_cfg, df, proxy, logger):
     web_browser = WebBrowser(headless=True, sleep_time=crawler_cfg['sleep_time'], proxy=proxy)
-    html_finder = HTMLFinder(api_key=api_key, model=crawler_cfg['model'],
+    html_finder = HTMLFinder(model=crawler_cfg[crawler_cfg['model']],
                              token_limit_per_minute=crawler_cfg['token_limit_per_minute'], logger=logger)
 
     logger.info(f"Fetching mentee information for {entry['name']}")
@@ -76,7 +76,7 @@ def fetch_mentee_info(entry, api_key, crawler_cfg, df, proxy, logger):
     return entry, df
 
 
-def build_mentee_df(mentee_entries, api_key, crawler_cfg, proxy, logger):
+def build_mentee_df(mentee_entries, crawler_cfg, proxy, logger):
     # Create an empty DataFrame or load existing data
     csv_path = os.path.join(data_dir, 'mentee_profiles.csv')
     if os.path.exists(csv_path):
@@ -89,7 +89,7 @@ def build_mentee_df(mentee_entries, api_key, crawler_cfg, proxy, logger):
         if name_in_column(df.copy(), entry['name']):
             logger.info(f"Profile for {entry['name']} already exists, skipping")
             continue
-        new_entry, df = fetch_mentee_info(entry, api_key, crawler_cfg, df, proxy, logger)
+        new_entry, df = fetch_mentee_info(entry, crawler_cfg, df, proxy, logger)
     return df
 
 
@@ -106,7 +106,6 @@ if __name__ == '__main__':
 
     cfg = yaml.safe_load(open(args.config, 'r'))['faculty']
     crawler_cfg = yaml.safe_load(open('configs/crawler.yaml', 'r'))
-    api_key = os.environ.get('API_KEY')
 
     # Initialization
     if args.department != 'all':
@@ -129,7 +128,7 @@ if __name__ == '__main__':
                 logger.error('No faculty profiles found. Please run retrieve_faculty.py first.')
                 exit(1)
 
-            mentee_df = build_mentee_df(mentee_entries, api_key, crawler_cfg, args.proxy, logger)
+            mentee_df = build_mentee_df(mentee_entries, crawler_cfg, args.proxy, logger)
             logger.info(f"Finished processing all mentee profiles for the {args.department} department.")
         except Exception as e:
             logger.error(f"An error occurred while fetching mentee profiles: {e}")
