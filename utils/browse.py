@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from base64 import b64decode
-import json
+import os
 
 from bs4 import BeautifulSoup
 import random
@@ -102,7 +102,7 @@ class WebBrowser:
             search_url = f"https://www.google.com/search?q={query}"
             api_response = requests.post(
                 "https://api.zyte.com/v1/extract",
-                auth=("d6e2548834c34ac68a369f4b4ec02aae", ""),
+                auth=(f"{os.getenv('ZYTE_API_KEY')}", ""),
                 json={
                     "url": search_url,
                     "httpResponseBody": True,
